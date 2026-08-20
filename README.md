@@ -21,28 +21,19 @@ MATLAB/Simulink Implementation and Simulation
 | 3 | Mandavalli Vishnu Teja | cb.sc.u4aie24130 | cb.sc.u4aie24130@cb.students.amrita.edu |
 | 4 | Muvva Venkata Mukesh| cb.sc.u4aie24138 | cb.sc.u4aie24138@cb.students.amrita.edu |
 | 5 | Narni Srinivas | cb.sc.u4aie24140 | cb.sc.u4aie24140@cb.students.amrita.edu |
-
 # Abstract
 
-This project implements a hierarchical trajectory-tracking control framework for a multicopter based directly on the methodology presented in the base paper, **“Trajectory Tracking for a Multicopter under a Quaternion Representation.”** The implementation follows the proposed mathematical model and control architecture without modifying the core methodology. The approach combines **differential flatness, feedback linearization, quaternion-based attitude representation, and computed-torque control** to achieve accurate trajectory tracking for a multicopter.
-
-The multicopter is modeled using nonlinear translational and rotational dynamics, with its attitude represented using unit quaternions. Differential flatness is employed to express the system states and control inputs in terms of the flat output, consisting of the three-dimensional position and one quaternion component. The high-level position controller uses position, velocity, and integral tracking errors to generate the required translational acceleration. From this desired acceleration, the required thrust and reference quaternion are obtained using the flatness-based formulation.
-
-The generated reference quaternion is then provided to the low-level attitude controller. A computed-torque control law is used to compensate for the nonlinear rotational dynamics and accurately track the desired attitude. The quaternion formulation avoids the singularities associated with Euler-angle representations while maintaining a continuous representation of the multicopter orientation. The complete implementation includes the nonlinear multicopter model, quaternion kinematics, differential-flatness formulation, feedback-linearized position control, computed-torque attitude control, trajectory generation, and disturbance/drag modeling.
-
-The implemented system is evaluated through simulation and trajectory-tracking experiments. The results demonstrate accurate position and attitude tracking and show that the controller can compensate for external disturbances while maintaining the desired trajectory.
+This project implements the multicopter trajectory-tracking control methodology presented in the base paper using a quaternion-based nonlinear dynamic model. The approach combines differential flatness, feedback linearization, and computed-torque control to achieve accurate position and attitude tracking. The multicopter attitude is represented using unit quaternions, avoiding the singularities associated with Euler-angle representations. The high-level position controller uses position, velocity, and integral tracking errors to generate the required translational acceleration. Differential-flatness relations then convert this acceleration into the required thrust and reference quaternion. A low-level computed-torque controller tracks the reference quaternion while compensating for the nonlinear rotational dynamics. The complete methodology is implemented in simulation to evaluate trajectory tracking and the controller's response to disturbances.
 
 # Introduction
 
-Multicopters are nonlinear aerial vehicles whose motion is governed by coupled translational and rotational dynamics. For autonomous flight and trajectory tracking, the vehicle must simultaneously control its position in three-dimensional space and its orientation. The nonlinear relationship between the vehicle attitude, thrust direction, and translational motion makes accurate trajectory tracking a challenging control problem.
+Multicopters are nonlinear, underactuated aerial vehicles whose position and attitude are strongly coupled. Accurate trajectory tracking therefore requires a control strategy capable of handling both the nonlinear translational and rotational dynamics of the vehicle. Conventional Euler-angle representations can also introduce singularities and complicate the mathematical formulation of three-dimensional attitude control.
 
-In this project, the multicopter attitude is represented using **unit quaternions** instead of conventional Euler angles. A quaternion provides a compact representation of three-dimensional orientation while avoiding the singularities and gimbal-lock problems that can occur with Euler-angle representations. The quaternion is therefore used directly in the dynamic model and control formulation.
+This project implements the multicopter trajectory-tracking methodology presented in the base paper using a quaternion-based dynamic model. Quaternions are used to represent the vehicle attitude because they provide a compact representation of three-dimensional orientation without the singularities associated with Euler angles.
 
-The implemented control system follows a **hierarchical control architecture** consisting of a high-level position controller and a low-level attitude controller. The high-level controller receives the desired trajectory and the current vehicle state and determines the required translational acceleration. Using the differential-flatness formulation, this acceleration is converted into the required thrust and reference quaternion. The reference quaternion represents the attitude required for the multicopter to generate the desired translational motion.
+The implemented control architecture uses differential flatness to establish a relationship between the desired trajectory and the required thrust and attitude. A high-level feedback-linearization controller generates the required translational acceleration from the position tracking error. This acceleration is then transformed into the required thrust and reference quaternion using the differential-flatness formulation.
 
-The low-level controller is responsible for tracking this reference attitude. A computed-torque control strategy is used to compensate for the nonlinear rotational dynamics of the multicopter. Quaternion tracking errors are used to generate the corrective control action, allowing the actual attitude to converge toward the desired attitude.
-
-The overall control process can therefore be represented as
+A low-level computed-torque controller is used to track the reference quaternion while compensating for the nonlinear rotational dynamics of the multicopter. The complete system combines the nonlinear dynamic model, quaternion kinematics, differential flatness, feedback linearization, and computed-torque attitude control into a hierarchical trajectory-tracking framework. The implementation is evaluated through simulation to study position and attitude tracking performance.
 
 $$
 \text{Desired Trajectory}
@@ -88,7 +79,25 @@ The complete control methodology consists of the following stages:
 12. Track the reference quaternion using proportional, derivative, and integral quaternion feedback.
 13. Propagate the resulting translational and rotational dynamics.
 14. Evaluate the trajectory-tracking performance through simulation and experimental results.
+## 2. Methodology Flow Diagram
 
+The complete control architecture implemented in this project is shown below.
+
+```mermaid
+flowchart TD
+    A[Desired Trajectory] --> B[Position Controller]
+    B --> C[Differential Flatness]
+    C --> D[Reference Quaternion]
+    C --> E[Required Thrust]
+    D --> F[Computed Torque Attitude Controller]
+    E --> G[Multicopter Dynamics]
+    F --> G
+    G --> H[Feedback]
+    H --> B
+    H --> F
+```
+
+The architecture consists of a high-level position controller and a low-level attitude controller. The position controller generates the required acceleration, which is converted through differential flatness into the reference quaternion and thrust. The computed-torque attitude controller generates the required control torque, and both thrust and torque are applied to the multicopter dynamics. The resulting states are fed back to the controllers.
 The architecture is therefore
 
 $$
@@ -105,7 +114,7 @@ $$
 \text{Multicopter Dynamics}.
 $$
 
-The low-level attitude controller is operated at a higher frequency than the high-level position controller so that the attitude subsystem can track the generated reference quaternion sufficiently fast. :contentReference[oaicite:1]{index=1}
+The low-level attitude controller is operated at a higher frequency than the high-level position controller so that the attitude subsystem can track the generated reference quaternion sufficiently fast. 
 
 ---
 
@@ -170,7 +179,7 @@ q_0=
 \sqrt{1-q_1^2-q_2^2-q_3^2}.
 $$
 
-This reduced representation is important because the control formulation directly uses the three components $q_1,q_2,q_3$, while $q_0$ is obtained from the unit-norm constraint. :contentReference[oaicite:2]{index=2}
+This reduced representation is important because the control formulation directly uses the three components $q_1,q_2,q_3$, while $q_0$ is obtained from the unit-norm constraint.
 
 ---
 
@@ -201,7 +210,7 @@ R=
 \end{bmatrix}.
 $$
 
-The rotation matrix determines the direction of the multicopter thrust in the global coordinate frame and therefore directly connects the attitude to the translational motion. :contentReference[oaicite:3]{index=3}
+The rotation matrix determines the direction of the multicopter thrust in the global coordinate frame and therefore directly connects the attitude to the translational motion. 
 
 ---
 
@@ -225,26 +234,21 @@ $$
 The corresponding inverse relationship is
 
 $$
-\begin{bmatrix}
-0\\
-\omega_x\\
-\omega_y\\
-\omega_z
-\end{bmatrix}
-=
-2
-\begin{bmatrix}
-q_0&q_1&q_2&q_3\\
--q_1&q_0&q_3&-q_2\\
--q_2&-q_3&q_0&q_1\\
--q_3&q_2&-q_1&q_0
-\end{bmatrix}
-\begin{bmatrix}
-\dot q_0\\
-\dot q_1\\
-\dot q_2\\
-\dot q_3
-\end{bmatrix}.
+\omega_x=2(-q_1\dot{q}_0+q_0\dot{q}_1-q_3\dot{q}_2+q_2\dot{q}_3)
+$$
+
+$$
+\omega_y=2(-q_2\dot{q}_0+q_3\dot{q}_1+q_0\dot{q}_2-q_1\dot{q}_3)
+$$
+
+$$
+\omega_z=2(-q_3\dot{q}_0-q_2\dot{q}_1+q_1\dot{q}_2+q_0\dot{q}_3)
+$$
+
+Using the reduced quaternion vector, this relationship can be written as
+
+$$
+\omega=Q(q)\dot{q}
 $$
 
 Using the reduced quaternion vector, this is written compactly as
@@ -260,7 +264,7 @@ q_0=
 \sqrt{1-q_1^2-q_2^2-q_3^2}.
 $$
 
-These equations provide the connection between quaternion motion and rotational dynamics required by the computed-torque controller. :contentReference[oaicite:4]{index=4}
+These equations provide the connection between quaternion motion and rotational dynamics required by the computed-torque controller.
 
 ---
 
@@ -296,27 +300,289 @@ e_z=
 \end{bmatrix}
 $$
 
-Expanding the translational dynamics gives
+Expanding the translational dynamics gives:
 
 $$
+m\ddot{x}=2T(q_0q_2+q_1q_3)
+$$
+
+$$
+m\ddot{y}=2T(q_2q_3-q_0q_1)
+$$
+
+$$
+m\ddot{z}=-mg+T(q_0^2-q_1^2-q_2^2+q_3^2)
+$$
+
+The translational dynamics are:
+
+$$
+m\ddot{\xi}=mg+Re_zT
+$$
+
+## 6. Nonlinear Rotational Dynamics
+
+The rotational motion of the multicopter is modeled using the rigid-body rotational dynamics:
+
+$$
+J\dot{\omega}+\omega\times(J\omega)=\tau
+$$
+
+where $J$ is the inertia matrix, $\omega$ is the body angular velocity, and $\tau$ is the control torque.
+
+The angular velocity is defined as
+
+$$
+\omega=
 \begin{bmatrix}
-\ddot{x}\\
-\ddot{y}\\
-\ddot{z}
-\end{bmatrix}
-=
+\omega_x & \omega_y & \omega_z
+\end{bmatrix}^{T}
+$$
+
+and the control torque is
+
+$$
+\tau=
 \begin{bmatrix}
-0\\
-0\\
--g
+\tau_x & \tau_y & \tau_z
+\end{bmatrix}^{T}.
+$$
+
+For the multicopter model, the inertia matrix is
+
+$$
+J=
+\begin{bmatrix}
+J_x & 0 & 0\\
+0 & J_y & 0\\
+0 & 0 & J_z
 \end{bmatrix}
+$$
+
+The rotational dynamics can be expanded into three equations:
+
+$$
+\dot{\omega}_x=
+\frac{J_y-J_z}{J_x}\omega_y\omega_z+
+\frac{\tau_x}{J_x}
+$$
+
+$$
+\dot{\omega}_y=
+\frac{J_z-J_x}{J_y}\omega_z\omega_x+
+\frac{\tau_y}{J_y}
+$$
+
+$$
+\dot{\omega}_z=
+\frac{J_x-J_y}{J_z}\omega_x\omega_y+
+\frac{\tau_z}{J_z}
+$$
+
+These equations describe the nonlinear rotational behavior of the multicopter. The angular-velocity coupling terms are compensated by the computed-torque controller in the attitude-control layer.
+
+## 7. Differential Flatness
+
+The multicopter system is differentially flat. This property allows the system states and control inputs to be obtained from a suitable flat output and a finite number of its derivatives.
+
+The flat output used in the proposed methodology is
+
+$$
+z=
+\begin{bmatrix}
+x & y & z & q_3
+\end{bmatrix}^{T}
+$$
+
+where $x$, $y$, and $z$ are the multicopter position coordinates and $q_3$ is the fourth component of the unit quaternion.
+
+The remaining quaternion component is obtained from the unit-norm constraint:
+
+$$
+q_0=
+\sqrt{1-q_1^2-q_2^2-q_3^2}
+$$
+
+The differential-flatness property allows the required thrust and attitude to be calculated from the desired translational acceleration.
+
+The required thrust is
+
+$$
+T=
+m\sqrt{
+\ddot{x}^{2}
 +
-\frac{T}{m}
+\ddot{y}^{2}
++
+(\ddot{z}+g)^{2}
+}
+$$
+
+Define
+
+$$
+D=
+\sqrt{
+\ddot{x}^{2}
++
+\ddot{y}^{2}
++
+(\ddot{z}+g)^{2}
+}
+$$
+
+The reference quaternion components are then obtained from the desired acceleration and the selected value of $q_3$.
+
+The scalar component is
+
+$$
+q_0=
+\frac{1}{\sqrt{2}}
+\sqrt{
+\frac{\ddot{z}+g}{D}
+-2q_3^2+1
+}
+$$
+
+The first vector component is
+
+$$
+q_1=\frac{\ddot{x}q_3-\frac{\ddot{y}}{\sqrt{2}}\sqrt{\frac{\ddot{z}+g}{D}-2q_3^2+1}}{\ddot{z}+g+D}
+$$
+
+The second vector component is
+
+$$
+q_2=
+\frac{
+\ddot{y}q_3
++
+\frac{\ddot{x}}{\sqrt{2}}
+\sqrt{
+\frac{\ddot{z}+g}{D}
+-2q_3^2+1
+}
+}{
+\ddot{z}+g+D
+}
+$$
+
+Thus, the desired translational acceleration determines the required thrust and the reference quaternion. This forms the main connection between the high-level position controller and the low-level attitude controller.
+
+The reference values can therefore be represented as
+
+$$
+T=T(\ddot{\xi})
+$$
+
+and
+
+$$
+q_r=q_r(\ddot{\xi},q_{3r})
+$$
+
+where $q_{3r}$ is the selected reference value of the flat-output quaternion component.
+## 8. Feedback-Linearization Position Controller
+
+The position controller uses feedback linearization to transform the nonlinear translational dynamics into a linear error-dynamics problem.
+
+The position tracking error is defined as
+
+$$
+\epsilon_{\xi}=\xi_r-\xi
+$$
+
+The corrective acceleration is defined as
+
+$$
+\ddot{\xi}^{*}=
+\ddot{\xi}_r+
+K_{p\xi}\epsilon_{\xi}+
+K_{d\xi}\dot{\epsilon}_{\xi}+
+K_{i\xi}\int\epsilon_{\xi}\,dt
+$$
+
+where $\xi_r$ is the desired position, $\xi$ is the actual position, and $K_{p\xi}$, $K_{d\xi}$, and $K_{i\xi}$ are the proportional, derivative, and integral gain matrices.
+
+The corrective acceleration is then used to calculate the required thrust and reference quaternion:
+
+$$
+q_{ir}=\Gamma_{q_i}(\xi^{*},q_{3r})
+$$
+
+$$
+T=\Gamma_T(\xi^{*})
+$$
+
+where $q_{3r}$ is the reference value of the flat-output quaternion component.
+
+The resulting closed-loop position error dynamics are
+
+$$
+\ddot{\epsilon}_{\xi}
++
+K_{p\xi}\epsilon_{\xi}
++
+K_{d\xi}\dot{\epsilon}_{\xi}
++
+K_{i\xi}\int\epsilon_{\xi}\,dt
+=0
+$$
+
+Thus, the nonlinear position-tracking problem is converted into a linear error-dynamics problem through feedback linearization. The resulting thrust and reference quaternion are passed to the attitude-control layer.
+
+## 9. Computed-Torque Attitude Controller
+
+The low-level attitude controller uses the Computed Torque Control (CTC) method to compensate for the nonlinear rotational dynamics of the multicopter.
+
+The input torque is calculated as
+
+$$
+\tau=JQ(q)\tilde{\tau}+JD_q[Q(q)\dot{q}]\dot{q}+[Q(q)\dot{q}]\times[JQ(q)\dot{q}]
+$$
+
+where $J$ is the inertia tensor, $Q(q)$ is the quaternion transformation matrix, and $D_q$ represents the Jacobian with respect to the quaternion.
+
+The corrective term is
+
+$$
+\tilde{\tau}=\ddot{q}_r+K_{pq}\epsilon_q+K_{dq}\dot{\epsilon}_q+K_{iq}\int\epsilon_q\,dt
+$$
+
+The quaternion tracking error is
+
+$$
+\epsilon_q=q_r-q
+$$
+
+where $q_r$ is the reference quaternion generated by the position controller and $q$ is the measured quaternion.
+
+The matrices $K_{pq}$, $K_{dq}$, and $K_{iq}$ are diagonal positive definite gain matrices.
+
+The attitude controller tracks the last three components of the reference quaternion:
+
+$$
+q_r=
 \begin{bmatrix}
-2(q_0q_2+q_1q_3)\\
-2(q_2q_3-q_0q_1)\\
-q_0^2-q_1^2-q_2^2+q_3^2
+q_{0r}\\
+q_{1r}\\
+q_{2r}\\
+q_{3r}
 \end{bmatrix}
 $$
 
-This nonlinear translational model describes how the thrust and multicopter attitude determine the acceleration of the vehicle.
+The controller directly tracks $q_{1r}$, $q_{2r}$, and $q_{3r}$. The first quaternion component $q_0$ converges to its reference value through the unit-quaternion constraint.
+
+The unit-quaternion constraint is
+
+$$
+q_0^2+q_1^2+q_2^2+q_3^2=1
+$$
+
+and similarly for the reference quaternion,
+
+$$
+q_{0r}^2+q_{1r}^2+q_{2r}^2+q_{3r}^2=1
+$$
+
+Therefore, convergence of the three tracked quaternion components also ensures convergence of the remaining quaternion component.
