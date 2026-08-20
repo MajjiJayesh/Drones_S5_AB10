@@ -24,7 +24,6 @@ MATLAB/Simulink Implementation and Simulation
 
 # Trajectory Tracking for a Multicopter under a Quaternion Representation
 
-# Trajectory Tracking for a Multicopter under a Quaternion Representation
 
 ## Abstract
 
