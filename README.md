@@ -30,28 +30,27 @@ MATLAB/Simulink Implementation and Simulation
 
 # 1. Abstract
 
-Quadrotors are nonlinear and underactuated aerial systems whose position and attitude dynamics are strongly coupled. Accurate trajectory tracking therefore requires a control strategy capable of handling nonlinear translational and rotational dynamics while maintaining a computationally manageable structure.
+This project presents the design, implementation, and simulation of a nonlinear trajectory-tracking controller for a quadrotor UAV using differential flatness and quaternion-based attitude control. The quadrotor is a nonlinear and underactuated aerial vehicle in which translational and rotational dynamics are strongly coupled. To address this problem, a hierarchical control architecture is developed. The outer-loop position controller tracks a desired three-dimensional trajectory and generates the required translational acceleration. A differential-flatness-based mapping is then used to determine the desired attitude and thrust. The inner-loop attitude controller uses quaternion representation and nonlinear computed-torque control to generate the required control torque.
 
-This project presents a MATLAB/Simulink implementation of a hierarchical quadrotor trajectory-tracking architecture based on differential flatness, feedback linearization, and quaternion-based computed-torque attitude control.
+The complete closed-loop system is implemented in MATLAB/Simulink. The model includes reference trajectory generation, position control, differential-flatness mapping, quaternion attitude control, translational dynamics, rotational dynamics, quaternion kinematics, feedback, and data logging.
 
-The proposed architecture consists of two major control layers. The outer position-control layer uses a reference trajectory and differential-flatness-based mapping to generate the desired translational acceleration, desired attitude, and thrust. The inner attitude-control layer uses quaternion representation and computed-torque control to generate the required control torque for tracking the desired attitude.
+A smooth quintic trajectory is generated over a 10-second simulation interval. The performance of the controller is evaluated using position tracking error, quaternion tracking error, thrust, control torque, and angular velocity.
 
-The complete closed-loop system is implemented in MATLAB/Simulink, including reference trajectory generation, position control, flatness mapping, quaternion attitude control, translational dynamics, rotational dynamics, quaternion kinematics, feedback, data logging, error analysis, and 3-D visualization.
+Position RMSE:
 
-A smooth quintic trajectory is generated over a 10-second simulation interval. The resulting simulation demonstrates accurate position and attitude tracking. The obtained position RMSE values are:
+Axis	RMSE
+X	0.006659 m
+Y	0.004419 m
+Z	0.000041 m
 
-- X-position RMSE: **0.006659 m**
-- Y-position RMSE: **0.004419 m**
-- Z-position RMSE: **0.000041 m**
+Quaternion Tracking Error:
 
-The quaternion tracking errors are:
+Component	RMSE
+q₁	1.6557 × 10⁻⁴
+q₂	2.4949 × 10⁻⁴
+q₃	1.2512 × 10⁻¹⁹
 
-- \(q_1\) RMSE: **\(1.6557\times10^{-4}\)**
-- \(q_2\) RMSE: **\(2.4949\times10^{-4}\)**
-- \(q_3\) RMSE: **\(1.2512\times10^{-19}\)**
-
-The control inputs and angular velocities remain bounded during the simulation. A 3-D animation using the simulated position and quaternion states is also developed to visualize the trajectory and vehicle attitude.
-
+The project also includes a MATLAB-based 3-D quadrotor animation that visualizes the actual vehicle position and attitude using the simulated quaternion state. MuJoCo is included as an additional physics-based simulation and visualization environment.
 ---
 
 # 2. Introduction
