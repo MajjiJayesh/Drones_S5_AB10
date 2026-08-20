@@ -82,20 +82,19 @@ The complete system is simulated in MATLAB/Simulink, while MuJoCo is considered 
 
 # 3. Problem Statement
 
-The objective of this project is to design and simulate a closed-loop quadrotor trajectory-tracking system capable of following a desired three-dimensional position trajectory while maintaining the required attitude.
+The objective is to design a closed-loop controller capable of making a quadrotor follow a smooth three-dimensional reference trajectory while maintaining the required attitude.
 
-The system should:
+The controller should:
 
-1. generate a smooth reference trajectory,
-2. compute position, velocity, and acceleration references,
-3. use nonlinear position control to generate the desired translational acceleration,
-4. use differential-flatness mapping to obtain the desired attitude and thrust,
-5. use quaternion-based attitude control to generate the required torque,
-6. simulate the complete quadrotor dynamics,
-7. feed the actual state back into the controller,
-8. evaluate tracking performance quantitatively,
-9. visualize the resulting trajectory and attitude.
-
+- track the desired $x, y, z$ position,
+- minimize position tracking error,
+- generate appropriate thrust,
+- generate the desired vehicle attitude,
+- track the desired quaternion,
+- generate stabilizing control torques,
+- maintain bounded angular velocity,
+- preserve quaternion normalization,
+- and demonstrate the complete behavior through simulation and visualization.
 ---
 
 # 4. Objectives
