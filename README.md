@@ -586,3 +586,93 @@ q_{0r}^2+q_{1r}^2+q_{2r}^2+q_{3r}^2=1
 $$
 
 Therefore, convergence of the three tracked quaternion components also ensures convergence of the remaining quaternion component.
+
+
+## Results
+
+# 11. MATLAB/Simulink Simulation Results
+
+The implemented quaternion-based quadrotor controller was evaluated in MATLAB/Simulink to verify the complete control architecture and trajectory-tracking performance.
+
+## 11.1 Complete Simulink Model
+
+The complete MATLAB/Simulink model integrates the reference trajectory, position controller, differential-flatness mapping, attitude controller, and quadrotor dynamics.
+
+<img src="Simulink1.jpeg" alt="Complete Simulink Model" width="100%">
+
+*Figure 1. Complete MATLAB/Simulink model for quaternion-based quadrotor control.*
+
+## 11.2 Reference Trajectory Generation
+
+The reference trajectory block generates the desired position, velocity, acceleration, and reference attitude required by the controller.
+
+<img src="Reference_Traj.jpeg" alt="Reference Trajectory" width="100%">
+
+*Figure 2. Reference trajectory generation block implemented in MATLAB/Simulink.*
+
+## 11.3 Differential-Flatness Mapping
+
+The differential-flatness block converts the corrected desired acceleration into the required thrust and reference quaternion.
+
+<img src="FlatnessMap.jpeg" alt="Differential Flatness Mapping" width="100%">
+
+*Figure 3. Differential-flatness transformation for thrust and reference attitude generation.*
+
+## 11.4 Quadrotor Dynamics
+
+The quadrotor plant models the translational dynamics, rotational dynamics, and quaternion kinematics of the vehicle.
+
+<img src="Rotation_Translation.jpeg" alt="Quadrotor Dynamics" width="100%">
+
+*Figure 4. Complete quadrotor rotational, translational, and quaternion dynamics model.*
+
+## 11.5 Attitude Controller
+
+The quaternion-based attitude controller generates the control torque required to track the reference attitude.
+
+<img src="Torque.jpeg" alt="Attitude Controller" width="100%">
+
+*Figure 5. Quaternion-based attitude controller for control-torque generation.*
+
+## 11.6 Complete Closed-Loop Simulation
+
+The complete closed-loop implementation connects the reference trajectory, position controller, attitude controller, and quadrotor plant with feedback signals.
+
+<img src="Simulink_Result.jpeg" alt="Complete Closed Loop Simulation" width="100%">
+
+*Figure 6. Complete closed-loop quadrotor control architecture implemented in MATLAB/Simulink.*
+
+## 11.7 3D Trajectory Tracking
+
+The resulting three-dimensional trajectory is compared with the desired reference trajectory to evaluate tracking performance.
+
+<img src="Simulink_Result1.jpeg" alt="3D Trajectory Tracking" width="100%">
+
+*Figure 7. Three-dimensional reference and actual quadrotor trajectories obtained from MATLAB/Simulink simulation.*
+
+# 12. MuJoCo Simulation Results
+
+The implemented controller was further evaluated in MuJoCo to verify the quadrotor response in a physics-based simulation environment.
+
+## 12.1 Initial Quadrotor State
+
+<img src="Drone_P0.jpeg" alt="MuJoCo Initial Quadrotor State" width="100%">
+
+*Figure 8. Initial quadrotor state in the MuJoCo simulation environment.*
+
+## 12.2 Intermediate Flight State
+
+<img src="Drone_P1.jpeg" alt="MuJoCo Intermediate Flight State" width="100%">
+
+*Figure 9. Quadrotor response during the MuJoCo simulation.*
+
+## 12.3 Final Flight State
+
+<img src="Drone_P2.jpeg" alt="MuJoCo Final Flight State" width="100%">
+
+*Figure 10. Quadrotor response at a later stage of the MuJoCo simulation.*
+## 12.3 Final Flight State
+
+![MuJoCo Final State](./Drone_P2.jpeg)
+
+*Figure 10. Quadrotor response at a later stage of the MuJoCo simulation.*
