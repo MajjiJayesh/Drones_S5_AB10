@@ -1,3 +1,21 @@
+
+
+
+
+<p align="center">
+  <img src="YOUR_AMRITA_LOGO_PATH" width="180">
+</p>
+
+<h2 align="center">
+Differential Flatness and Quaternion-Based Trajectory Tracking of a Quadrotor
+</h2>
+
+<p align="center">
+MATLAB/Simulink Implementation and Simulation
+</p>
+
+---
+
 ## Team Members
 
 | S. No. | Name | Roll Number | Email |
@@ -8,105 +26,696 @@
 | 4 | Muvva Venkata Mukesh| cb.sc.u4aie24138 | cb.sc.u4aie24138@cb.students.amrita.edu |
 | 5 | Narni Srinivas | cb.sc.u4aie24140 | cb.sc.u4aie24140@cb.students.amrita.edu |
 
-# Drones---Trajectory-Tracking-for-a-Multicopter-under-a-Quaternion-Representation
+# Trajectory Tracking for a Multicopter under a Quaternion Representation
 
-## Overview
+# 1. Abstract
 
-This project implements a quaternion-based trajectory tracking controller for a quadcopter UAV. The objective is to enable a drone to accurately follow predefined three-dimensional trajectories while maintaining stable orientation using quaternion mathematics.
+Quadrotors are nonlinear and underactuated aerial systems whose position and attitude dynamics are strongly coupled. Accurate trajectory tracking therefore requires a control strategy capable of handling nonlinear translational and rotational dynamics while maintaining a computationally manageable structure.
 
-Unlike conventional Euler angle based controllers, this project employs quaternion representation to eliminate singularities such as gimbal lock and provide smooth attitude control during aggressive maneuvers.
+This project presents a MATLAB/Simulink implementation of a hierarchical quadrotor trajectory-tracking architecture based on differential flatness, feedback linearization, and quaternion-based computed-torque attitude control.
 
-The project follows the hierarchical control framework presented in the paper:
+The proposed architecture consists of two major control layers. The outer position-control layer uses a reference trajectory and differential-flatness-based mapping to generate the desired translational acceleration, desired attitude, and thrust. The inner attitude-control layer uses quaternion representation and computed-torque control to generate the required control torque for tracking the desired attitude.
 
-> Huu Thien Nguyen et al.,
-> "Trajectory Tracking for a Multicopter under a Quaternion Representation,"
-> IFAC Papers OnLine, 2020.
+The complete closed-loop system is implemented in MATLAB/Simulink, including reference trajectory generation, position control, flatness mapping, quaternion attitude control, translational dynamics, rotational dynamics, quaternion kinematics, feedback, data logging, error analysis, and 3-D visualization.
 
----
+A smooth quintic trajectory is generated over a 10-second simulation interval. The resulting simulation demonstrates accurate position and attitude tracking. The obtained position RMSE values are:
 
-## Project Objectives
+- X-position RMSE: **0.006659 m**
+- Y-position RMSE: **0.004419 m**
+- Z-position RMSE: **0.000041 m**
 
-- Model quadcopter dynamics using quaternion representation
-- Implement quaternion kinematics and rigid body dynamics
-- Implement differential flatness based trajectory generation
-- Design a feedback linearization position controller
-- Design a computed torque attitude controller
-- Validate the controller through simulation
-- Deploy the controller on a real quadcopter platform
+The quaternion tracking errors are:
 
----
+- \(q_1\) RMSE: **\(1.6557\times10^{-4}\)**
+- \(q_2\) RMSE: **\(2.4949\times10^{-4}\)**
+- \(q_3\) RMSE: **\(1.2512\times10^{-19}\)**
 
-## Motivation
-
-Traditional quadcopter controllers commonly represent orientation using Euler angles (Roll-Pitch-Yaw). Although intuitive, Euler angles suffer from singularities (gimbal lock) and become unreliable during large rotations.
-
-Quaternion representation provides
-
-- Singularity-free orientation
-- Smooth rotational interpolation
-- Better numerical stability
-- Efficient attitude computation
-
-This project demonstrates how quaternion mathematics can be applied to practical quadcopter trajectory tracking.
+The control inputs and angular velocities remain bounded during the simulation. A 3-D animation using the simulated position and quaternion states is also developed to visualize the trajectory and vehicle attitude.
 
 ---
 
+# 2. Introduction
 
+## 2.1 Background
 
-### High-Level Controller
+Unmanned aerial vehicles (UAVs), particularly quadrotors, are widely used in applications such as:
 
-The position controller
+- aerial inspection
+- surveillance
+- mapping
+- delivery
+- search and rescue
+- infrastructure monitoring
+- autonomous navigation
+- cinematography
 
-- receives the desired trajectory
-- computes position error
-- generates desired acceleration
-- computes desired thrust
-- computes the reference quaternion
+A quadrotor has four independently controlled rotors. By changing the rotor thrusts, the vehicle can control its total thrust and body torques.
 
-Controller type
+Despite their simple mechanical structure, quadrotors present a challenging control problem because they are:
 
-- Feedback Linearization
-- PID Correction
-- Differential Flatness
+1. nonlinear,
+2. underactuated,
+3. dynamically coupled,
+4. sensitive to attitude changes,
+5. subject to translational and rotational coupling.
 
----
-
-### Low-Level Controller
-
-The attitude controller
-
-- tracks the reference quaternion
-- computes control torques
-- stabilizes drone orientation
-
-Controller type
-
-- Computed Torque Control (CTC)
+Therefore, trajectory tracking requires both a position-control mechanism and an attitude-control mechanism.
 
 ---
 
-## Mathematical Model
+# 3. Problem Statement
 
-The project implements
+The objective of this project is to design and simulate a closed-loop quadrotor trajectory-tracking system capable of following a desired three-dimensional position trajectory while maintaining the required attitude.
 
-### Rotation Kinematics
+The system should:
 
-- Unit Quaternion
-- Quaternion Derivative
-- Rotation Matrix
+1. generate a smooth reference trajectory,
+2. compute position, velocity, and acceleration references,
+3. use nonlinear position control to generate the desired translational acceleration,
+4. use differential-flatness mapping to obtain the desired attitude and thrust,
+5. use quaternion-based attitude control to generate the required torque,
+6. simulate the complete quadrotor dynamics,
+7. feed the actual state back into the controller,
+8. evaluate tracking performance quantitatively,
+9. visualize the resulting trajectory and attitude.
 
-### Dynamics
+---
 
-- Translational Dynamics
-- Rotational Dynamics
-- Newton-Euler Equations
+# 4. Objectives
 
-### Differential Flatness
+The main objectives of the project are:
 
-Flat Output
+- To understand the nonlinear dynamics of a quadrotor.
+- To implement a smooth reference trajectory.
+- To implement differential-flatness-based trajectory mapping.
+- To design an outer-loop position controller.
+- To generate desired attitude and thrust.
+- To represent attitude using unit quaternions.
+- To implement quaternion-based attitude control.
+- To implement rotational and translational dynamics.
+- To perform closed-loop simulation using MATLAB/Simulink.
+- To evaluate position and attitude tracking errors.
+- To analyze thrust, torque, and angular velocity.
+- To create a 3-D quadrotor visualization.
+- To compare desired and actual trajectories.
 
+---
 
-## Control Architecture
+# 5. Literature Review
 
-The controller is implemented using a hierarchical two-layer architecture.
+## 5.1 Differential Flatness
 
+Differential flatness provides a way to represent the states and control inputs of a nonlinear system using a suitable set of flat outputs and their derivatives.
+
+For quadrotors, differential flatness is particularly useful because it allows trajectory planning and nonlinear control to be formulated in terms of a smaller set of outputs.
+
+Previous research has demonstrated the use of differential flatness for quadrotor trajectory generation and nonlinear control.
+
+---
+
+## 5.2 Quaternion-Based Attitude Representation
+
+Euler angles can suffer from singularities such as gimbal lock. Quaternions provide a compact four-parameter representation of three-dimensional orientation without this singularity.
+
+A unit quaternion is represented as
+
+\[
+q =
+\begin{bmatrix}
+q_0\\
+q_1\\
+q_2\\
+q_3
+\end{bmatrix}
+\]
+
+with the constraint
+
+\[
+q_0^2+q_1^2+q_2^2+q_3^2=1.
+\]
+
+Quaternion representation is therefore used for the attitude state in this project.
+
+---
+
+## 5.3 Hierarchical Control
+
+The implemented architecture follows a hierarchical structure:
+
+\[
+\boxed{
+\text{Reference}
+\rightarrow
+\text{Position Control}
+\rightarrow
+\text{Attitude Control}
+\rightarrow
+\text{Quadrotor Dynamics}
+}
+\]
+
+The outer loop primarily handles position tracking, while the inner loop handles attitude stabilization.
+
+The base paper *Trajectory Tracking for a Multicopter under a Quaternion Representation* presents a similar two-layer architecture using differential flatness, feedback linearization, and computed-torque attitude control. :contentReference[oaicite:1]{index=1}
+
+---
+
+# 6. Mathematical Model
+
+## 6.1 Coordinate Frames
+
+Two coordinate frames are considered:
+
+### Inertial frame
+
+\[
+\mathcal{F}_I = \{X_I,Y_I,Z_I\}
+\]
+
+This frame represents the fixed world/reference coordinate system.
+
+### Body frame
+
+\[
+\mathcal{F}_B = \{X_B,Y_B,Z_B\}
+\]
+
+This frame is attached to the quadrotor body.
+
+---
+
+# 7. Translational Dynamics
+
+Let the position of the quadrotor be
+
+\[
+\xi =
+\begin{bmatrix}
+x\\
+y\\
+z
+\end{bmatrix}.
+\]
+
+The translational dynamics can be represented as
+
+\[
+m\ddot{\xi}
+=
+mg e_3 + R(q)e_3T
+\]
+
+where:
+
+- \(m\) = quadrotor mass,
+- \(g\) = gravitational acceleration,
+- \(T\) = total thrust,
+- \(R(q)\) = rotation matrix corresponding to quaternion \(q\),
+- \(e_3=[0,0,1]^T\).
+
+Depending on the adopted thrust and coordinate sign convention, the gravity/thrust signs are determined consistently throughout the implementation.
+
+---
+
+# 8. Rotational Dynamics
+
+The rotational dynamics are modeled using Euler's rigid-body equation:
+
+\[
+J\dot{\omega}
++
+\omega\times(J\omega)
+=
+\tau
+\]
+
+where:
+
+- \(J\) = inertia matrix,
+- \(\omega=[\omega_x,\omega_y,\omega_z]^T\) = body angular velocity,
+- \(\tau=[\tau_x,\tau_y,\tau_z]^T\) = control torque.
+
+Therefore,
+
+\[
+\dot{\omega}
+=
+J^{-1}
+\left[
+\tau-\omega\times(J\omega)
+\right].
+\]
+
+This equation is implemented inside the `RotDynamics` subsystem.
+
+---
+
+# 9. Quaternion Representation
+
+The quaternion is represented as
+
+\[
+q=
+\begin{bmatrix}
+q_0\\
+q_1\\
+q_2\\
+q_3
+\end{bmatrix}.
+\]
+
+The unit-quaternion constraint is
+
+\[
+\|q\|=1.
+\]
+
+The quaternion kinematic equation is expressed as
+
+\[
+\dot q
+=
+\frac{1}{2}q\otimes
+\begin{bmatrix}
+0\\
+\omega
+\end{bmatrix}
+\]
+
+where \(\otimes\) denotes quaternion multiplication.
+
+The quaternion is normalized during simulation to prevent numerical drift:
+
+\[
+q
+\leftarrow
+\frac{q}{\|q\|}.
+\]
+
+---
+
+# 10. Quaternion Multiplication
+
+For two quaternions
+
+\[
+q=(q_0,\mathbf q)
+\]
+
+and
+
+\[
+r=(r_0,\mathbf r),
+\]
+
+their product is
+
+\[
+q\otimes r
+=
+\left(
+q_0r_0-\mathbf q^T\mathbf r,
+\;
+q_0\mathbf r+r_0\mathbf q+\mathbf q\times\mathbf r
+\right).
+\]
+
+The quaternion conjugate is
+
+\[
+q^*
+=
+\begin{bmatrix}
+q_0\\
+-q_1\\
+-q_2\\
+-q_3
+\end{bmatrix}.
+\]
+
+---
+
+# 11. Differential Flatness
+
+Differential flatness allows a nonlinear system to be parameterized using a set of flat outputs.
+
+For the quadrotor formulation used in the project, the flat-output concept is associated with translational position and an attitude-related component:
+
+\[
+z_f=
+\begin{bmatrix}
+x\\
+y\\
+z\\
+q_3
+\end{bmatrix}.
+\]
+
+The flatness mapping allows the system states and required inputs to be reconstructed from the flat outputs and their derivatives.
+
+The project therefore uses the following conceptual transformation:
+
+\[
+\boxed{
+(x,y,z,q_3)
+\rightarrow
+\text{desired state and input quantities}
+}
+\]
+
+The `FlatnessMap` subsystem performs this transformation in the Simulink implementation.
+
+---
+
+# 12. Reference Trajectory Generation
+
+A smooth quintic trajectory is used to move the quadrotor from the initial point
+
+\[
+p_0=
+\begin{bmatrix}
+1.8\\
+2.27\\
+0.6
+\end{bmatrix}
+\]
+
+to the destination
+
+\[
+p_f=
+\begin{bmatrix}
+2.9\\
+3.0\\
+1.2
+\end{bmatrix}.
+\]
+
+The trajectory duration is
+
+\[
+T=10\;s.
+\]
+
+The normalized time is
+
+\[
+\tau=
+\frac{t-t_0}{T}.
+\]
+
+The quintic interpolation function is
+
+\[
+s(\tau)
+=
+10\tau^3
+-
+15\tau^4
++
+6\tau^5.
+\]
+
+Therefore,
+
+\[
+\xi_r(t)
+=
+p_0+
+(p_f-p_0)s(\tau).
+\]
+
+The velocity reference is
+
+\[
+\dot{\xi}_r(t)
+=
+(p_f-p_0)\dot{s}(\tau)
+\]
+
+where
+
+\[
+\dot{s}
+=
+\frac{
+30\tau^2
+-
+60\tau^3
++
+30\tau^4
+}{T}.
+\]
+
+The acceleration reference is
+
+\[
+\ddot{\xi}_r(t)
+=
+(p_f-p_0)\ddot{s}(\tau)
+\]
+
+where
+
+\[
+\ddot{s}
+=
+\frac{
+60\tau
+-
+180\tau^2
++
+120\tau^3
+}{T^2}.
+\]
+
+The boundary conditions are
+
+\[
+s(0)=0,\qquad s(1)=1
+\]
+
+and
+
+\[
+\dot{s}(0)=\dot{s}(1)=0
+\]
+
+and
+
+\[
+\ddot{s}(0)=\ddot{s}(1)=0.
+\]
+
+Therefore, the vehicle starts and ends the trajectory smoothly.
+
+---
+
+# 13. Position Controller
+
+The position error is defined as
+
+\[
+e_\xi
+=
+\xi_r-\xi.
+\]
+
+The velocity error is
+
+\[
+e_{\dot{\xi}}
+=
+\dot{\xi}_r-\dot{\xi}.
+\]
+
+A PID-type position control structure is implemented.
+
+The proportional term is
+
+\[
+u_P=K_{p,\xi}e_\xi.
+\]
+
+The integral term is
+
+\[
+u_I=
+K_{i,\xi}
+\int e_\xi\,dt.
+\]
+
+The derivative term is
+
+\[
+u_D=
+K_{d,\xi}e_{\dot{\xi}}.
+\]
+
+The desired translational acceleration is then constructed from the reference acceleration and feedback terms:
+
+\[
+\boxed{
+\ddot{\xi}^{*}
+=
+\ddot{\xi}_r
++
+K_{p,\xi}e_\xi
++
+K_{i,\xi}\int e_\xi dt
++
+K_{d,\xi}e_{\dot{\xi}}
+}
+\]
+
+with the exact sign convention implemented consistently in the Simulink model.
+
+---
+
+# 14. Flatness Mapping
+
+The desired translational acceleration generated by the position controller is passed to the flatness mapping block.
+
+The purpose of this block is to transform the desired translational behavior into:
+
+\[
+q_r
+\]
+
+and
+
+\[
+T.
+\]
+
+Therefore:
+
+\[
+\boxed{
+\ddot{\xi}^{*}
+\rightarrow
+(q_r,T)
+}
+\]
+
+The desired quaternion is then provided to the attitude controller.
+
+The thrust command is provided directly to the plant.
+
+---
+
+# 15. Attitude Control
+
+The attitude controller receives:
+
+- desired quaternion \(q_r\),
+- actual quaternion \(q\),
+- desired quaternion derivative,
+- actual angular velocity \(\omega\),
+- inertia matrix \(J\).
+
+The quaternion tracking error can be represented using
+
+\[
+q_e=q_r\otimes q^*.
+\]
+
+The vector part of the error quaternion is used as the attitude error:
+
+\[
+e_q=
+\operatorname{vec}(q_e).
+\]
+
+The angular velocity tracking error is
+
+\[
+e_\omega
+=
+\omega_r-\omega.
+\]
+
+For the implemented simulation, the desired angular-rate reference is taken according to the controller structure used in the model.
+
+The computed-torque control law has the general form
+
+\[
+\boxed{
+\tau
+=
+J\dot{\omega}^{*}
++
+\omega\times J\omega
+-
+K_{p,q}e_q
+-
+K_{d,q}e_\omega
+-
+K_{i,q}\int e_q\,dt
+}
+\]
+
+with the implemented sign and reference conventions defined by the Simulink controller.
+
+The gyroscopic compensation term
+
+\[
+\omega\times J\omega
+\]
+
+compensates for the nonlinear rotational coupling.
+
+---
+
+# 16. Closed-Loop Control Architecture
+
+The complete system can be represented as:
+
+```text
+                 Reference Trajectory
+                         │
+                         ▼
+             ┌────────────────────────┐
+             │   Position Controller  │
+             └────────────┬───────────┘
+                          │
+                   ξ̈* / desired motion
+                          │
+                          ▼
+             ┌────────────────────────┐
+             │      Flatness Map      │
+             └────────────┬───────────┘
+                          │
+                    ┌─────┴─────┐
+                    │           │
+                   qr           T
+                    │           │
+                    ▼           │
+          ┌─────────────────┐   │
+          │ Attitude        │   │
+          │ Controller      │   │
+          └────────┬────────┘   │
+                   │            │
+                  τ             │
+                   │            │
+                   └─────┬──────┘
+                         ▼
+                 ┌──────────────┐
+                 │    Plant     │
+                 │              │
+                 │ Translational│
+                 │ Dynamics     │
+                 │              │
+                 │ Rotational   │
+                 │ Dynamics     │
+                 └──────┬───────┘
+                        │
+              ┌─────────┼──────────┐
+              ▼         ▼          ▼
+             ξ          q         ω
+              │         │          │
+              └─────────┴──────────┘
+                        │
+                        ▼
+                     Feedback
