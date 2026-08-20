@@ -171,7 +171,8 @@ The complete methodology is:
               └────────┴────────┘
                        │
                        ▼
-                    Feedback
+                    Feedback                       
+
 
 # 6. Mathematical Formulation
 
