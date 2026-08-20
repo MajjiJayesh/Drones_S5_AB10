@@ -99,61 +99,79 @@ The controller should:
 
 # 4. Objectives
 
-The main objectives of the project are:
+The main objectives are:
 
-- To understand the nonlinear dynamics of a quadrotor.
-- To implement a smooth reference trajectory.
-- To implement differential-flatness-based trajectory mapping.
-- To design an outer-loop position controller.
-- To generate desired attitude and thrust.
-- To represent attitude using unit quaternions.
-- To implement quaternion-based attitude control.
-- To implement rotational and translational dynamics.
-- To perform closed-loop simulation using MATLAB/Simulink.
-- To evaluate position and attitude tracking errors.
-- To analyze thrust, torque, and angular velocity.
-- To create a 3-D quadrotor visualization.
-- To compare desired and actual trajectories.
-
----
-
-# 5. Literature Review
-
-## 5.1 Differential Flatness
-
-Differential flatness provides a way to represent the states and control inputs of a nonlinear system using a suitable set of flat outputs and their derivatives.
-
-For quadrotors, differential flatness is particularly useful because it allows trajectory planning and nonlinear control to be formulated in terms of a smaller set of outputs.
-
-Previous research has demonstrated the use of differential flatness for quadrotor trajectory generation and nonlinear control.
+1. Develop a mathematical model of quadrotor translational and rotational dynamics.
+2. Generate a smooth 3-D reference trajectory.
+3. Design an outer-loop position controller.
+4. Implement differential-flatness-based mapping.
+5. Generate desired quaternion and thrust.
+6. Implement quaternion-based attitude control.
+7. Implement nonlinear rotational dynamics.
+8. Implement quaternion kinematics.
+9. Build the complete system in MATLAB/Simulink.
+10. Evaluate position and attitude tracking quantitatively.
+11. Analyze thrust, torque, and angular velocity.
+12. Develop a 3-D quadrotor animation.
+13. Extend the simulation toward MuJoCo-based physics validation.
 
 ---
 
-## 5.2 Quaternion-Based Attitude Representation
+## 5. Base Paper and Literature
 
-Euler angles can suffer from singularities such as gimbal lock. Quaternions provide a compact four-parameter representation of three-dimensional orientation without this singularity.
+The project is based on the nonlinear quadrotor trajectory-tracking methodology involving differential flatness, feedback linearization, and quaternion-based attitude control.
 
-A unit quaternion is represented as
+The selected base methodology uses a hierarchical structure in which trajectory/position control is coupled with quaternion-based attitude stabilization.
 
-\[
-q =
-\begin{bmatrix}
-q_0\\
-q_1\\
-q_2\\
-q_3
-\end{bmatrix}
-\]
+The mathematical and control structure is implemented independently in MATLAB/Simulink for this project.
 
-with the constraint
+## 6. Overall Methodology
 
-\[
-q_0^2+q_1^2+q_2^2+q_3^2=1.
-\]
+The complete methodology is:
 
-Quaternion representation is therefore used for the attitude state in this project.
-
----
+```text
+                 Reference Trajectory
+                         │
+                         ▼
+              ┌─────────────────────┐
+              │ Position Controller │
+              └──────────┬──────────┘
+                         │
+                       ξ̈*
+                         │
+                         ▼
+              ┌─────────────────────┐
+              │   Flatness Mapping  │
+              └──────────┬──────────┘
+                         │
+                    ┌────┴────┐
+                    │         │
+                   qr         T
+                    │         │
+                    ▼         │
+          ┌────────────────┐  │
+          │    Attitude    │  │
+          │   Controller   │  │
+          └───────┬────────┘  │
+                  │           │
+                  τ           │
+                  │           │
+                  └─────┬─────┘
+                        ▼
+               ┌────────────────┐
+               │    Quadrotor   │
+               │     Plant      │
+               └───────┬────────┘
+                       │
+              ┌────────┼────────┐
+              │        │        │
+              ▼        ▼        ▼
+              ξ        q        ω
+              │        │        │
+              └────────┴────────┘
+                       │
+                       ▼
+                    Feedback
 
 ## 5.3 Hierarchical Control
 
