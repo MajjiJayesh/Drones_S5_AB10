@@ -44,19 +44,19 @@ The low-level controller is responsible for tracking this reference attitude. A 
 
 The overall control process can therefore be represented as
 
-\[
+$$
 \text{Desired Trajectory}
 \rightarrow
 \text{Position Controller}
 \rightarrow
 \text{Desired Acceleration}
 \rightarrow
-\left(T,q_r\right)
+(T,q_r)
 \rightarrow
 \text{Attitude Controller}
 \rightarrow
-\text{Multicopter Dynamics}.
-\]
+\text{Multicopter Dynamics}
+$$
 
 The methodology implemented in this project is based on the differential-flatness property of the multicopter system. The flat output is defined using the vehicle position and one quaternion component, allowing the remaining states and control inputs to be obtained algebraically from the flat output and its derivatives. This provides a systematic way of generating the thrust and attitude required to follow a given trajectory.
 
