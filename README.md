@@ -118,7 +118,7 @@ The low-level attitude controller is operated at a higher frequency than the hig
 
 ---
 
-## 2. Multicopter State Representation
+## 3. Multicopter State Representation
 
 The multicopter position is represented by
 
@@ -183,7 +183,7 @@ This reduced representation is important because the control formulation directl
 
 ---
 
-## 3. Quaternion Rotation Matrix
+## 4. Quaternion Rotation Matrix
 
 The orientation of the multicopter body frame with respect to the global frame is represented by the rotation matrix
 
@@ -214,7 +214,7 @@ The rotation matrix determines the direction of the multicopter thrust in the gl
 
 ---
 
-## 4. Quaternion Kinematics
+## 5. Quaternion Kinematics
 
 The relationship between quaternion derivative and body angular velocity is
 
@@ -268,7 +268,7 @@ These equations provide the connection between quaternion motion and rotational 
 
 ---
 
-## 5. Nonlinear Translational Dynamics
+## 6. Nonlinear Translational Dynamics
 
 The translational motion of the multicopter is described by Newton's second law:
 
@@ -320,7 +320,7 @@ $$
 m\ddot{\xi}=mg+Re_zT
 $$
 
-## 6. Nonlinear Rotational Dynamics
+## 7. Nonlinear Rotational Dynamics
 
 The rotational motion of the multicopter is modeled using the rigid-body rotational dynamics:
 
@@ -381,7 +381,7 @@ $$
 
 These equations describe the nonlinear rotational behavior of the multicopter. The angular-velocity coupling terms are compensated by the computed-torque controller in the attitude-control layer.
 
-## 7. Differential Flatness
+## 8. Differential Flatness
 
 The multicopter system is differentially flat. This property allows the system states and control inputs to be obtained from a suitable flat output and a finite number of its derivatives.
 
@@ -482,7 +482,7 @@ q_r=q_r(\ddot{\xi},q_{3r})
 $$
 
 where $q_{3r}$ is the selected reference value of the flat-output quaternion component.
-## 8. Feedback-Linearization Position Controller
+## 9. Feedback-Linearization Position Controller
 
 The position controller uses feedback linearization to transform the nonlinear translational dynamics into a linear error-dynamics problem.
 
@@ -531,7 +531,7 @@ $$
 
 Thus, the nonlinear position-tracking problem is converted into a linear error-dynamics problem through feedback linearization. The resulting thrust and reference quaternion are passed to the attitude-control layer.
 
-## 9. Computed-Torque Attitude Controller
+## 10. Computed-Torque Attitude Controller
 
 The low-level attitude controller uses the Computed Torque Control (CTC) method to compensate for the nonlinear rotational dynamics of the multicopter.
 
