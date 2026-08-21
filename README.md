@@ -671,3 +671,11 @@ The implemented controller was further evaluated in MuJoCo to verify the quadrot
 <img src=Images/Drone_P2.jpeg alt="MuJoCo Final Flight State" width="100%">
 
 *Figure 10. Quadrotor response at a later stage of the MuJoCo simulation.*
+
+## Conclusion
+
+This project successfully implemented and evaluated a quaternion-based multicopter trajectory-tracking control framework based on the methodology presented in the reference paper. The developed system integrates *differential flatness, feedback-linearization-based position control, quaternion representation, and computed-torque attitude control* to address the coupled nonlinear translational and rotational dynamics of the multicopter.
+
+The *position controller* generates the required corrective acceleration from the trajectory tracking errors, while the *differential-flatness transformation* converts this acceleration into the required thrust and reference quaternion. The *quaternion-based attitude controller* then generates the required control torque to track the reference orientation while accounting for the nonlinear rotational dynamics. The complete closed-loop model was implemented in *MATLAB/Simulink*, including reference trajectory generation, position control, flatness mapping, attitude control, and multicopter dynamics.
+
+The controller was additionally evaluated using *MuJoCo simulation* to verify the behavior of the implemented multicopter dynamic model in a separate simulation environment. The obtained results demonstrate the complete control pipeline from trajectory generation to position and attitude response. Overall, the implementation provides a systematic quaternion-based approach for multicopter trajectory tracking while avoiding the singularities associated with Euler-angle representations.
