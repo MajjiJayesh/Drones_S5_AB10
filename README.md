@@ -3,7 +3,7 @@
 </p>
 
 <h2 align="center">
-Differential Flatness and Quaternion-Based Trajectory Tracking of a Quadrotor
+Trajectory Tracking for a Multicopter under a Quaternion Representation
 </h2>
 
 
