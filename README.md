@@ -6,9 +6,6 @@
 Differential Flatness and Quaternion-Based Trajectory Tracking of a Quadrotor
 </h2>
 
-<p align="center">
-MATLAB/Simulink Implementation and Simulation
-</p>
 
 ---
 
