@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="Images/Amrita Logo.jpeg" width="180">
+  <img src="Images/Amrita Logo.jpeg" width="700">
 </p>
 
 <h2 align="center">
