@@ -380,154 +380,359 @@ These equations describe the nonlinear rotational behavior of the multicopter. T
 
 ## 8. Differential Flatness
 
-The multicopter system is differentially flat. This property allows the system states and control inputs to be obtained from a suitable flat output and a finite number of its derivatives.
+The translational dynamics of the multicopter are given by
 
-The flat output used in the proposed methodology is
+```math
+m\ddot{\boldsymbol{\xi}}=m\mathbf{g}+Re_zT
+```
 
-$$
-z=
+The flat output is selected as
+
+```math
+\mathbf{z}=
 \begin{bmatrix}
 x & y & z & q_3
 \end{bmatrix}^{T}
+```
+
+Using the quaternion representation of the rotation matrix, the translational dynamics can be expressed as
+
+**(A.1a)**
+
+```math
+\frac{m\ddot{x}}{T}=2(q_0q_2+q_1q_3)
+```
+
+**(A.1b)**
+
+```math
+\frac{m\ddot{y}}{T}=2(q_2q_3-q_0q_1)
+```
+
+**(A.1c)**
+
+```math
+\frac{m(\ddot{z}+g)}{T}=q_0^2-q_1^2-q_2^2+q_3^2
+```
+
+Together with the unit-quaternion constraint,
+
+**(A.1d)**
+
+```math
+q_0^2+q_1^2+q_2^2+q_3^2=1
+```
+
+These equations are used to obtain the thrust and the remaining quaternion components from the flat output and its derivatives.
+### 8.1 Derivation of the Required Thrust
+
+Squaring Eqs. (A.1a)--(A.1c) and adding them gives
+
+```math
+\frac{m^2}{T^2}
+\left[
+\ddot{x}^2+\ddot{y}^2+(\ddot{z}+g)^2
+\right]
+=
+\left(q_0^2+q_1^2+q_2^2+q_3^2\right)^2
+```
+
+Using the unit-quaternion constraint,
+
+```math
+q_0^2+q_1^2+q_2^2+q_3^2=1
+```
+
+we obtain
+
+```math
+\frac{m^2}{T^2}
+\left[
+\ddot{x}^2+\ddot{y}^2+(\ddot{z}+g)^2
+\right]
+=1
+```
+
+Therefore,
+
+```math
+T^2
+=
+m^2
+\left[
+\ddot{x}^2+\ddot{y}^2+(\ddot{z}+g)^2
+\right]
+```
+Since the thrust is positive,
+
+$$
+T=m\sqrt{\ddot{x}^{2}+\ddot{y}^{2}+(\ddot{z}+g)^{2}}
+\tag{17}
 $$
 
-where $x$, $y$, and $z$ are the multicopter position coordinates and $q_3$ is the fourth component of the unit quaternion.
+For convenience, define
 
-The remaining quaternion component is obtained from the unit-norm constraint:
-
-$$
-q_0=
-\sqrt{1-q_1^2-q_2^2-q_3^2}
-$$
-
-The differential-flatness property allows the required thrust and attitude to be calculated from the desired translational acceleration.
-
-The required thrust is
-
-$$
-T=
-m\sqrt{
-\ddot{x}^{2}
-+
-\ddot{y}^{2}
-+
-(\ddot{z}+g)^{2}
-}
-$$
-
-Define
-
-$$
+```math
 D=
 \sqrt{
-\ddot{x}^{2}
-+
-\ddot{y}^{2}
-+
-(\ddot{z}+g)^{2}
+\ddot{x}^2+\ddot{y}^2+(\ddot{z}+g)^2
 }
-$$
+```
 
-The reference quaternion components are then obtained from the desired acceleration and the selected value of $q_3$.
+Thus,
 
-The scalar component is
+```math
+T=mD
+```
 
-$$
+### 8.2 Derivation of $q_0$
+
+Adding Eqs. (A.1c) and (A.1d) gives
+
+```math
+2(q_0^2+q_3^2)
+=
+1+\frac{m(\ddot{z}+g)}{T}
+```
+
+Using $T=mD$,
+
+```math
+q_0^2+q_3^2
+=
+\frac{1}{2}
+\left(
+1+\frac{\ddot{z}+g}{D}
+\right)
+```
+
+Hence,
+
+```math
+q_0^2
+=
+\frac{1}{2}
+\left(
+1+\frac{\ddot{z}+g}{D}
+\right)
+-q_3^2
+```
+
+Since $q_0\geq0$,
+
+```math
 q_0=
 \frac{1}{\sqrt{2}}
 \sqrt{
-\frac{\ddot{z}+g}{D}
--2q_3^2+1
+\frac{\ddot{z}+g}{D}-2q_3^2+1
 }
-$$
+\tag{A.5}
+```
 
-The first vector component is
+### 8.3 Derivation of $q_1$ and $q_2$
 
-$$
-q_1=\frac{\ddot{x}q_3-\frac{\ddot{y}}{\sqrt{2}}\sqrt{\frac{\ddot{z}+g}{D}-2q_3^2+1}}{\ddot{z}+g+D}
-$$
+From Eqs. (A.1a) and (A.1b),
 
-The second vector component is
-
-$$
-q_2=
-\frac{
-\ddot{y}q_3
-+
-\frac{\ddot{x}}{\sqrt{2}}
-\sqrt{
-\frac{\ddot{z}+g}{D}
--2q_3^2+1
-}
-}{
-\ddot{z}+g+D
-}
-$$
-
-Thus, the desired translational acceleration determines the required thrust and the reference quaternion. This forms the main connection between the high-level position controller and the low-level attitude controller.
-
-The reference values can therefore be represented as
-
-$$
-T=T(\ddot{\xi})
-$$
+```math
+q_3q_1+q_0q_2
+=
+\frac{m\ddot{x}}{2T}
+```
 
 and
 
-$$
-q_r=q_r(\ddot{\xi},q_{3r})
-$$
+```math
+-q_0q_1+q_3q_2
+=
+\frac{m\ddot{y}}{2T}
+```
 
-where $q_{3r}$ is the selected reference value of the flat-output quaternion component.
+Solving these two equations for $q_1$ and $q_2$ gives
+
+```math
+q_1=
+\frac{
+m(q_3\ddot{x}-q_0\ddot{y})
+}{
+2T(q_0^2+q_3^2)
+}
+```
+
+and
+
+```math
+q_2=
+\frac{
+m(q_0\ddot{x}+q_3\ddot{y})
+}{
+2T(q_0^2+q_3^2)
+}
+```
+
+Thus, the thrust and quaternion components are obtained algebraically from the flat output and its derivatives.
 ## 9. Feedback-Linearization Position Controller
 
-The position controller uses feedback linearization to transform the nonlinear translational dynamics into a linear error-dynamics problem.
+For the position controller at the high level, the flatness representations are used to design the feedback-linearization controller.
 
-The position tracking error is defined as
+The reference quaternion components and thrust are given by
 
-$$
-\epsilon_{\xi}=\xi_r-\xi
-$$
+**(19a)**
 
-The corrective acceleration is defined as
+```math
+q_{ir}=\Gamma_{q_i}(\ddot{\xi}^{*},q_{3r}), \qquad i\in\{0,1,2\}
+```
 
-$$
-\ddot{\xi}^{*}=
-\ddot{\xi}_r+
-K_{p\xi}\epsilon_{\xi}+
-K_{d\xi}\dot{\epsilon}_{\xi}+
-K_{i\xi}\int\epsilon_{\xi}\,dt
-$$
+**(19b)**
 
-where $\xi_r$ is the desired position, $\xi$ is the actual position, and $K_{p\xi}$, $K_{d\xi}$, and $K_{i\xi}$ are the proportional, derivative, and integral gain matrices.
+```math
+T=\Gamma_T(\ddot{\xi}^{*})
+```
 
-The corrective acceleration is then used to calculate the required thrust and reference quaternion:
+where $q_{3r}$ is the reference value of $q_3$ defined by the user, and the corrective term is
 
-$$
-q_{ir}=\Gamma_{q_i}(\xi^{*},q_{3r})
-$$
-
-$$
-T=\Gamma_T(\xi^{*})
-$$
-
-where $q_{3r}$ is the reference value of the flat-output quaternion component.
-
-The resulting closed-loop position error dynamics are
-
-$$
-\ddot{\epsilon}_{\xi}
+```math
+\ddot{\xi}^{*}
+=
+\ddot{\xi}_r
 +
-K_{p\xi}\epsilon_{\xi}
+K_{p\xi}\tilde{\xi}
 +
-K_{d\xi}\dot{\epsilon}_{\xi}
+K_{d\xi}\dot{\tilde{\xi}}
 +
-K_{i\xi}\int\epsilon_{\xi}\,dt
-=0
-$$
+K_{i\xi}\int\tilde{\xi}\,dt
+```
 
-Thus, the nonlinear position-tracking problem is converted into a linear error-dynamics problem through feedback linearization. The resulting thrust and reference quaternion are passed to the attitude-control layer.
+**(20)**
 
+where
+
+```math
+\tilde{\xi}=\xi_r-\xi
+```
+
+and $K_{p\xi}$, $K_{d\xi}$, and $K_{i\xi}$ are diagonal positive-definite matrices in $\mathbb{R}^3$.
+
+### 9.1 Closed-Loop Position Dynamics
+
+From (19), with $\ddot{z}^{*}\geq-g$, the following relations are obtained:
+
+**(22a)**
+
+```math
+\frac{2(q_{0r}q_{2r}+q_{1r}q_{3r})T}{m}
+=
+\ddot{x}^{*}
+```
+
+**(22b)**
+
+```math
+\frac{2(q_{2r}q_{3r}-q_{0r}q_{1r})T}{m}
+=
+\ddot{y}^{*}
+```
+
+**(22c)**
+
+```math
+\frac{(q_{0r}^{2}-q_{1r}^{2}-q_{2r}^{2}+q_{3r}^{2})T}{m}
+-g
+=
+\ddot{z}^{*}
+```
+
+**(22d)**
+
+```math
+q_{0r}^{2}+q_{1r}^{2}+q_{2r}^{2}+q_{3r}^{2}=1
+```
+
+From (22a)--(22c), the control law (19) drives the translational dynamics to
+
+**(23)**
+
+```math
+\begin{bmatrix}
+\ddot{x}\\
+\ddot{y}\\
+\ddot{z}
+\end{bmatrix}
+=
+\begin{bmatrix}
+\ddot{x}^{*}\\
+\ddot{y}^{*}\\
+\ddot{z}^{*}
+\end{bmatrix}
+```
+
+or equivalently,
+
+**(24)**
+
+```math
+\dot{x}=A_xx+B_x\ddot{\xi}^{*}
+```
+
+where
+
+```math
+x=
+\begin{bmatrix}
+\xi^{T} & \dot{\xi}^{T}
+\end{bmatrix}^{T}
+=
+\begin{bmatrix}
+x & y & z & \dot{x} & \dot{y} & \dot{z}
+\end{bmatrix}^{T}
+```
+
+and
+
+```math
+\ddot{\xi}^{*}
+=
+\begin{bmatrix}
+\ddot{x}^{*} &
+\ddot{y}^{*} &
+\ddot{z}^{*}
+\end{bmatrix}^{T}.
+```
+
+The system matrices are
+
+**(25)**
+
+```math
+A_x=
+\begin{bmatrix}
+0_{3\times3} & I_{3\times3}\\
+0_{3\times3} & 0_{3\times3}
+\end{bmatrix},
+\qquad
+B_x=
+\begin{bmatrix}
+0_{3\times3}\\
+I_{3\times3}
+\end{bmatrix}.
+```
+
+Substituting the corrective acceleration from (20) gives the closed-loop error dynamics
+
+**(21)**
+
+```math
+\ddot{\tilde{\xi}}
++
+K_{p\xi}\tilde{\xi}
++
+K_{d\xi}\dot{\tilde{\xi}}
++
+K_{i\xi}\int\tilde{\xi}\,dt
+=
+0
+```
+
+Thus, the feedback-linearization control law transforms the nonlinear translational dynamics into the linear closed-loop error system given by (21).
 ## 10. Computed-Torque Attitude Controller
 
 The low-level attitude controller uses the Computed Torque Control (CTC) method to compensate for the nonlinear rotational dynamics of the multicopter.
