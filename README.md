@@ -115,7 +115,144 @@ The low-level attitude controller is operated at a higher frequency than the hig
 
 ---
 
-## 3. Multicopter State Representation
+---
+
+## 3. Basis Spline (B-Spline) Trajectory Generation
+
+To provide smooth, physically feasible reference trajectories for the differential-flatness controller, Basis Splines (B-splines) are utilized. Differential-flatness-based control requires at least $C^2$ continuity (continuous position, velocity, and acceleration) so that the computed thrust and attitude references do not experience sudden discontinuous jumps.
+
+A parametric B-spline curve of degree $p$ defined by $n+1$ control points $\mathbf{P}_0, \mathbf{P}_1, \dots, \mathbf{P}_n \in \mathbb{R}^3$ is given by:
+
+$$
+C(u) = \sum_{i=0}^{n} N_{i,p}(u)\mathbf{P}_i, \quad u \in [0, 1]
+$$
+
+where $N_{i,p}(u)$ are the B-spline basis functions and $u$ is the normalized spline parameter.
+
+---
+
+### 3.1 Clamped Knot Vector
+
+The parameter domain is partitioned by a non-decreasing knot vector:
+
+$$
+\Xi = [ u_0, u_1, \dots, u_m ], \quad m = n + p + 1
+$$
+
+To strictly guarantee that the trajectory starts exactly at the initial waypoint and terminates exactly at the target waypoint, a **clamped (open) knot vector** is constructed with an endpoint multiplicity of (p + 1):
+
+$$
+\Xi = [ \underbrace{0, 0, \dots, 0}_{p+1 \text{ times}}, u_{p+1}, \dots, u_{m-p-1}, \underbrace{1, 1, \dots, 1}_{p+1 \text{ times}} ]
+$$
+
+The internal knots are uniformly spaced:
+
+$$
+u_{p+1+j} = \frac{j+1}{n - p + 1}, \quad j = 0, 1, \dots, n-p-1
+$$
+
+This property guarantees the boundary conditions:
+
+$$
+C(0) = \mathbf{P}_0 = \mathbf{P}_{\text{start}}, \qquad C(1) = \mathbf{P}_n = \mathbf{P}_{\text{goal}}
+$$
+
+---
+### 3.2 Cox–de Boor Recursive Formulation
+
+The basis functions $N_{i,p}(u)$ are evaluated recursively using the Cox–de Boor recurrence relation:
+
+$$
+N_{i,0}(u) = 
+\begin{cases}
+1, & \text{if } u_i \leq u < u_{i+1} \\
+0, & \text{otherwise}
+\end{cases}
+$$
+
+For degree $p \geq 1$:
+
+$$
+N_{i,p}(u) = \frac{u - u_i}{u_{i+p} - u_i} N_{i,p-1}(u) + \frac{u_{i+p+1} - u}{u_{i+p+1} - u_{i+1}} N_{i+1,p-1}(u)
+$$
+
+with the convention that terms with zero denominators evaluate to zero ($0/0 = 0$).
+
+---
+
+### 3.3 Analytical Trajectory Derivatives
+
+Differential flatness requires exact reference velocity and acceleration. The first derivative of a B-spline curve of degree $p$ is analytically represented as another B-spline curve of degree $p-1$:
+
+$$
+C'(u) = \frac{dC(u)}{du} = \sum_{i=0}^{n-1} N_{i+1, p-1}(u) \mathbf{Q}_i
+$$
+
+where the derivative control points $\mathbf{Q}_i \in \mathbb{R}^3$ are computed directly from the original control points:
+
+$$
+\mathbf{Q}_i = \frac{p}{u_{i+p+1} - u_{i+1}} (\mathbf{P}_{i+1} - \mathbf{P}_i), \quad i = 0, \dots, n-1
+$$
+
+Similarly, the second derivative $C''(u) = \frac{d^2C(u)}{du^2}$ is obtained by differentiating $C'(u)$ with respect to $u$:
+
+$$
+C''(u) = \sum_{i=0}^{n-2} N_{i+2, p-2}(u) \mathbf{R}_i
+$$
+
+where:
+
+$$
+\mathbf{R}_i = \frac{p-1}{u_{i+p+1} - u_{i+2}} (\mathbf{Q}_{i+1} - \mathbf{Q}_i), \quad i = 0, \dots, n-2
+$$
+
+---
+
+### 3.4 Smooth $C^2$ Quintic Time Parameterization
+
+To map real flight time $t \in [0, T]$ (where $T$ is the total flight duration) to the spline parameter $u \in [0, 1]$ while enforcing zero velocity and zero acceleration at takeoff ($t=0$) and touchdown ($t=T$), a **quintic smoothstep function** is employed:
+
+Let normalized time be:
+
+$$
+s(t) = \frac{t}{T} \in [0, 1]
+$$
+
+The parameter scaling $u(s)$ and its time derivatives are:
+
+$$
+u(s) = 10s^3 - 15s^4 + 6s^5
+$$
+
+$$
+\dot{u}(s) = \frac{du}{dt} = \frac{1}{T} \left( 30s^2 - 60s^3 + 30s^4 \right)
+$$
+
+$$
+\ddot{u}(s) = \frac{d^2u}{dt^2} = \frac{1}{T^2} \left( 60s - 180s^2 + 120s^3 \right)
+$$
+
+Notice that at boundaries:
+- At $t = 0$: $u(0) = 0$, $\dot{u}(0) = 0$, $\ddot{u}(0) = 0$.
+- At $t = T$: $u(1) = 1$, $\dot{u}(1) = 0$, $\ddot{u}(1) = 0$.
+
+Applying the chain rule, the continuous reference position $\xi_r(t)$, reference velocity $\dot{\xi}_r(t)$, and reference acceleration $\ddot{\xi}_r(t)$ fed into the high-level position controller are:
+
+$$
+\xi_r(t) = C(u(t))
+$$
+
+$$
+\dot{\xi}_r(t) = C'(u(t)) \dot{u}(t)
+$$
+
+$$
+\ddot{\xi}_r(t) = C''(u(t)) \dot{u}^2(t) + C'(u(t)) \ddot{u}(t)
+$$
+
+This guarantees that the multicopter smoothly departs from a hover state ($\dot{\xi}_r(0) = \mathbf{0}, \ddot{\xi}_r(0) = \mathbf{0}$) and comes to a complete rest at the goal ($\dot{\xi}_r(T) = \mathbf{0}, \ddot{\xi}_r(T) = \mathbf{0}$) without velocity or acceleration discontinuities.
+
+## 4. Multicopter State Representation
 
 The multicopter position is represented by
 
@@ -180,7 +317,7 @@ This reduced representation is important because the control formulation directl
 
 ---
 
-## 4. Quaternion Rotation Matrix
+## 5. Quaternion Rotation Matrix
 
 The orientation of the multicopter body frame with respect to the global frame is represented by the rotation matrix
 
@@ -211,7 +348,7 @@ The rotation matrix determines the direction of the multicopter thrust in the gl
 
 ---
 
-## 5. Quaternion Kinematics
+## 6. Quaternion Kinematics
 
 The relationship between quaternion derivative and body angular velocity is
 
@@ -265,7 +402,7 @@ These equations provide the connection between quaternion motion and rotational 
 
 ---
 
-## 6. Nonlinear Translational Dynamics
+## 7. Nonlinear Translational Dynamics
 
 The translational motion of the multicopter is described by Newton's second law:
 
@@ -317,7 +454,7 @@ $$
 m\ddot{\xi}=mg+Re_zT
 $$
 
-## 7. Nonlinear Rotational Dynamics
+## 8. Nonlinear Rotational Dynamics
 
 The rotational motion of the multicopter is modeled using the rigid-body rotational dynamics:
 
@@ -378,7 +515,7 @@ $$
 
 These equations describe the nonlinear rotational behavior of the multicopter. The angular-velocity coupling terms are compensated by the computed-torque controller in the attitude-control layer.
 
-## 8. Differential Flatness
+## 9. Differential Flatness
 
 The translational dynamics of the multicopter are given by
 
@@ -424,7 +561,7 @@ q_0^2+q_1^2+q_2^2+q_3^2=1
 ```
 
 These equations are used to obtain the thrust and the remaining quaternion components from the flat output and its derivatives.
-### 8.1 Derivation of the Required Thrust
+### 9.1 Derivation of the Required Thrust
 
 Squaring Eqs. (A.1a)--(A.1c) and adding them gives
 
@@ -485,7 +622,7 @@ Thus,
 T=mD
 ```
 
-### 8.2 Derivation of $q_0$
+### 9.2 Derivation of $q_0$
 
 Adding Eqs. (A.1c) and (A.1d) gives
 
@@ -529,7 +666,7 @@ q_0=
 \tag{A.5}
 ```
 
-### 8.3 Derivation of $q_1$ and $q_2$
+### 9.3 Derivation of $q_1$ and $q_2$
 
 From Eqs. (A.1a) and (A.1b),
 
@@ -570,7 +707,7 @@ m(q_0\ddot{x}+q_3\ddot{y})
 ```
 
 Thus, the thrust and quaternion components are obtained algebraically from the flat output and its derivatives.
-## 9. Feedback-Linearization Position Controller
+## 10. Feedback-Linearization Position Controller
 
 For the position controller at the high level, the flatness representations are used to design the feedback-linearization controller.
 
@@ -612,7 +749,7 @@ where
 
 and $K_{p\xi}$, $K_{d\xi}$, and $K_{i\xi}$ are diagonal positive-definite matrices in $\mathbb{R}^3$.
 
-### 9.1 Closed-Loop Position Dynamics
+### 10.1 Closed-Loop Position Dynamics
 
 From (19), with $\ddot{z}^{*}\geq-g$, the following relations are obtained:
 
@@ -733,7 +870,7 @@ K_{i\xi}\int\tilde{\xi}\,dt
 ```
 
 Thus, the feedback-linearization control law transforms the nonlinear translational dynamics into the linear closed-loop error system given by (21).
-## 10. Computed-Torque Attitude Controller
+## 11. Computed-Torque Attitude Controller
 
 The low-level attitude controller uses the Computed Torque Control (CTC) method to compensate for the nonlinear rotational dynamics of the multicopter.
 
@@ -792,11 +929,11 @@ Therefore, convergence of the three tracked quaternion components also ensures c
 
 ## Results
 
-# 11. MATLAB/Simulink Simulation Results
+# 12. MATLAB/Simulink Simulation Results
 
 The implemented quaternion-based quadrotor controller was evaluated in MATLAB/Simulink to verify the complete control architecture and trajectory-tracking performance.
 
-## 11.1 Complete Simulink Model
+## 12.1 Complete Simulink Model
 
 The complete MATLAB/Simulink model integrates the reference trajectory, position controller, differential-flatness mapping, attitude controller, and quadrotor dynamics.
 
@@ -804,7 +941,7 @@ The complete MATLAB/Simulink model integrates the reference trajectory, position
 
 *Figure 1. Complete MATLAB/Simulink model for quaternion-based quadrotor control.*
 
-## 11.2 Reference Trajectory Generation
+## 12.2 Reference Trajectory Generation
 
 The reference trajectory block generates the desired position, velocity, acceleration, and reference attitude required by the controller.
 
@@ -812,7 +949,7 @@ The reference trajectory block generates the desired position, velocity, acceler
 
 *Figure 2. Reference trajectory generation block implemented in MATLAB/Simulink.*
 
-## 11.3 Differential-Flatness Mapping
+## 12.3 Differential-Flatness Mapping
 
 The differential-flatness block converts the corrected desired acceleration into the required thrust and reference quaternion.
 
@@ -820,7 +957,7 @@ The differential-flatness block converts the corrected desired acceleration into
 
 *Figure 3. Differential-flatness transformation for thrust and reference attitude generation.*
 
-## 11.4 Quadrotor Dynamics
+## 12.4 Quadrotor Dynamics
 
 The quadrotor plant models the translational dynamics, rotational dynamics, and quaternion kinematics of the vehicle.
 
@@ -828,7 +965,7 @@ The quadrotor plant models the translational dynamics, rotational dynamics, and 
 
 *Figure 4. Complete quadrotor rotational, translational, and quaternion dynamics model.*
 
-## 11.5 Attitude Controller
+## 12.5 Attitude Controller
 
 The quaternion-based attitude controller generates the control torque required to track the reference attitude.
 
@@ -836,7 +973,7 @@ The quaternion-based attitude controller generates the control torque required t
 
 *Figure 5. Quaternion-based attitude controller for control-torque generation.*
 
-## 11.6 Complete Closed-Loop Simulation
+## 12.6 Complete Closed-Loop Simulation
 
 The complete closed-loop implementation connects the reference trajectory, position controller, attitude controller, and quadrotor plant with feedback signals.
 
@@ -844,7 +981,7 @@ The complete closed-loop implementation connects the reference trajectory, posit
 
 *Figure 6. Complete closed-loop quadrotor control architecture implemented in MATLAB/Simulink.*
 
-## 11.7 3D Trajectory Tracking
+## 12.7 3D Trajectory Tracking
 
 The resulting three-dimensional trajectory is compared with the desired reference trajectory to evaluate tracking performance.
 
@@ -852,23 +989,23 @@ The resulting three-dimensional trajectory is compared with the desired referenc
 
 *Figure 7. Three-dimensional reference and actual quadrotor trajectories obtained from MATLAB/Simulink simulation.*
 
-# 12. MuJoCo Simulation Results
+# 13. MuJoCo Simulation Results
 
 The implemented controller was further evaluated in MuJoCo to verify the quadrotor response in a physics-based simulation environment.
 
-## 12.1 Initial Quadrotor State
+## 13.1 Initial Quadrotor State
 
 <img src=Images/Drone_P0.jpeg alt="MuJoCo Initial Quadrotor State" width="100%">
 
 *Figure 8. Initial quadrotor state in the MuJoCo simulation environment.*
 
-## 12.2 Intermediate Flight State
+## 13.2 Intermediate Flight State
 
 <img src=Images/Drone_P1.jpeg alt="MuJoCo Intermediate Flight State" width="100%">
 
 *Figure 9. Quadrotor response during the MuJoCo simulation.*
 
-## 12.3 Final Flight State
+## 13.3 Final Flight State
 
 <img src=Images/Drone_P2.jpeg alt="MuJoCo Final Flight State" width="100%">
 
