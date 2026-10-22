@@ -937,7 +937,7 @@ The implemented quaternion-based quadrotor controller was evaluated in MATLAB/Si
 
 The complete MATLAB/Simulink model integrates the reference trajectory, position controller, differential-flatness mapping, attitude controller, and quadrotor dynamics.
 
-<img src= Images/Simulink1.jpeg alt="Complete Simulink Model" width="100%">
+<img src= Images/Simulink1.jpg alt="Complete Simulink Model" width="100%">
 
 *Figure 1. Complete MATLAB/Simulink model for quaternion-based quadrotor control.*
 
