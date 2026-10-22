@@ -603,9 +603,9 @@ m^2
 Since the thrust is positive,
 
 $$
-T=m\sqrt{\ddot{x}^{2}+\ddot{y}^{2}+(\ddot{z}+g)^{2}}
-\tag{17}
-$$
+T=m\sqrt{\ddot{x}^{\,2}+\ddot{y}^{\,2}+(\ddot{z}+g)^2} $$
+
+
 
 For convenience, define
 
@@ -663,7 +663,7 @@ q_0=
 \sqrt{
 \frac{\ddot{z}+g}{D}-2q_3^2+1
 }
-\tag{A.5}
+
 ```
 
 ### 9.3 Derivation of $q_1$ and $q_2$
