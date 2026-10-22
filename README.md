@@ -136,13 +136,13 @@ where $N_{i,p}(u)$ are the B-spline basis functions and $u$ is the normalized sp
 The parameter domain is partitioned by a non-decreasing knot vector:
 
 $$
-\Xi = [ u_0, u_1, \dots, u_m ], \quad m = n + p + 1
+X_i = [ u_0, u_1, \dots, u_m ], \quad m = n + p + 1
 $$
 
 To strictly guarantee that the trajectory starts exactly at the initial waypoint and terminates exactly at the target waypoint, a **clamped (open) knot vector** is constructed with an endpoint multiplicity of (p + 1):
 
 $$
-\Xi = [ \underbrace{0, 0, \dots, 0}_{p+1 \text{ times}}, u_{p+1}, \dots, u_{m-p-1}, \underbrace{1, 1, \dots, 1}_{p+1 \text{ times}} ]
+X_i = [ \underbrace{0, 0, \dots, 0}_{p+1 \text{ times}}, u_{p+1}, \dots, u_{m-p-1}, \underbrace{1, 1, \dots, 1}_{p+1 \text{ times}} ]
 $$
 
 The internal knots are uniformly spaced:
