@@ -1013,7 +1013,7 @@ The implemented controller was further evaluated in MuJoCo to verify the quadrot
 
 ## 13.4 Starting point of drone 
 
-<img src="Images/Ardupilot_Drone.jpeg alt = Drone Started from initial point" width="100%">
+<img src = Images/Ardupilot_Drone.jpeg alt = "Drone Started from initial point" width="100%">
 
 *Figure 11. Quadrotor Starting Point.*
 
