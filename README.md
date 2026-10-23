@@ -1011,11 +1011,11 @@ The implemented controller was further evaluated in MuJoCo to verify the quadrot
 
 *Figure 10. Quadrotor response at a later stage of the MuJoCo simulation.*
 
-## 13.4 Starting point P0 point of drone 
+## 13.4 Starting point of drone 
 
-<img src="Images/Drone_P0_Before_Avoidance.png alt = Initial Quadrotor state" width="100%">
+<img src="Images/Ardupilot_Drone.jpeg alt = Drone Started from initial point" width="100%">
 
-*Figure 11. Quadrotor initial state.*
+*Figure 11. Quadrotor Starting Point.*
 
 ## Conclusion
 
