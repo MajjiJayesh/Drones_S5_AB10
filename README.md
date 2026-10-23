@@ -1011,6 +1011,10 @@ The implemented controller was further evaluated in MuJoCo to verify the quadrot
 
 *Figure 10. Quadrotor response at a later stage of the MuJoCo simulation.*
 
+## 13.4 Graph of Mujoco
+
+<img src=Images/Drone_Avoiding_Reaching_Goal.png alt="MuJoCo Final Flight State" width="100%">
+
 # 14 Ardupilot Simulation Results
 
 ## 14.1 Starting point of drone 
