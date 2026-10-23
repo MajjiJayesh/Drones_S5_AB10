@@ -1007,7 +1007,7 @@ The implemented controller was further evaluated in MuJoCo to verify the quadrot
 
 ## 13.3 Final Flight State
 
-<img src=Images/Drone_P2.jpeg alt="MuJoCo Final Flight State" width="100%">
+<img src=Images/Drone_Avoiding_Reaching_Goal.png alt="MuJoCo Final Flight State" width="100%">
 
 *Figure 10. Quadrotor response at a later stage of the MuJoCo simulation.*
 
