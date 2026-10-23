@@ -995,7 +995,7 @@ The implemented controller was further evaluated in MuJoCo to verify the quadrot
 
 ## 13.1 Initial Quadrotor State
 
-<img src=Images/Drone_P0.jpeg alt="MuJoCo Initial Quadrotor State" width="100%">
+<img src=Images/Drone_P0_Before_Avoidance.png alt="MuJoCo Initial Quadrotor State" width="100%">
 
 *Figure 8. Initial quadrotor state in the MuJoCo simulation environment.*
 
