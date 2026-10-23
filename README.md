@@ -1019,7 +1019,7 @@ The implemented controller was further evaluated in MuJoCo to verify the quadrot
 
 ## 13.5 Drone Following Desired Trajectory
 
-<img src =Images/Drone_Detected_Obstacle.png alt = "Drone Started from initial point" width="100%">
+<img src = alt = "Drone Started from initial point" width="100%">
 
 *Figure 12. Quadrotor Following the Trajectory
 
