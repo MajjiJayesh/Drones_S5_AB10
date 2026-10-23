@@ -999,7 +999,7 @@ The implemented controller was further evaluated in MuJoCo to verify the quadrot
 
 *Figure 8. Initial quadrotor state in the MuJoCo simulation environment.*
 
-## 13.2 Intermediate Flight State
+## 13.2 Obstacle Avoidance of Drone 
 
 <img src=Images/Drone_P1.jpeg alt="MuJoCo Intermediate Flight State" width="100%">
 
