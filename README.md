@@ -1017,19 +1017,25 @@ The implemented controller was further evaluated in MuJoCo to verify the quadrot
 
 *Figure 11. The plots of Drone Dynamics. *
 
+## 13.5 Graph of Mujoco
+
+<img src=  alt="MuJoCo Graph" width="100%">
+
+*Figure 12. The plots of Drone Path. *
+
 # 14 Ardupilot Simulation Results
 
 ## 14.1 Starting point of drone 
 
 <img src = Images/Ardupilot_Drone.jpeg alt = "Drone Started from initial point" width="100%">
 
-*Figure 12. Quadrotor Starting Point.*
+*Figure 13. Quadrotor Starting Point.*
 
 ## 14.2 Drone Following Desired Trajectory
 
 <img src = Images/Drone_Obstacle.jpeg alt = "Drone Started from initial point" width="100%">
 
-*Figure 13. Quadrotor Following the Trajectory
+*Figure 14. Quadrotor Following the Trajectory
 
 ## Conclusion
 
