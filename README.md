@@ -1019,7 +1019,7 @@ The implemented controller was further evaluated in MuJoCo to verify the quadrot
 
 ## 13.5 Graph of Mujoco
 
-<img src=  alt="MuJoCo Graph" width="100%">
+<img src= Images/Drone_Path_Plot.png alt="MuJoCo Graph" width="100%">
 
 *Figure 12. The plots of Drone Path. *
 
