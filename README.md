@@ -1001,7 +1001,7 @@ The implemented controller was further evaluated in MuJoCo to verify the quadrot
 
 ## 13.2 Obstacle Avoidance of Drone 
 
-<img src=Images/Drone_P1.jpeg alt="MuJoCo Intermediate Flight State" width="100%">
+<img src=Images/Drone_Detected_Obstacle.png alt="MuJoCo Intermediate Flight State" width="100%">
 
 *Figure 9. Quadrotor response during the MuJoCo simulation.*
 
