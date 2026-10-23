@@ -1011,6 +1011,10 @@ The implemented controller was further evaluated in MuJoCo to verify the quadrot
 
 *Figure 10. Quadrotor response at a later stage of the MuJoCo simulation.*
 
+## 13.4 Starting point P0 point of drone 
+
+<img src= " " width="100%">
+
 ## Conclusion
 
 This project successfully implemented and evaluated a quaternion-based multicopter trajectory-tracking control framework based on the methodology presented in the reference paper. The developed system integrates *differential flatness, feedback-linearization-based position control, quaternion representation, and computed-torque attitude control* to address the coupled nonlinear translational and rotational dynamics of the multicopter.
