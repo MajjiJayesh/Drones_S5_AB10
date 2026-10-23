@@ -1013,7 +1013,7 @@ The implemented controller was further evaluated in MuJoCo to verify the quadrot
 
 ## 13.4 Graph of Mujoco
 
-<img src=Images/Drone_Plot.png alt="MuJoCo Graph" width="100%">
+<img src=alt="MuJoCo Graph" width="100%">
 
 *Figure 11. The plots of Drone Dynamics. *
 
