@@ -633,7 +633,6 @@ Thus,
 T=mD
 ```
 
-<img src = Images/Differential_Flatness_1.png alt = "Differential Flatness working" width="100%">
 
 ### 9.2 Derivation of $q_0$
 
@@ -718,6 +717,8 @@ m(q_0\ddot{x}+q_3\ddot{y})
 2T(q_0^2+q_3^2)
 }
 ```
+
+<img src = Images/Differential_Flatness_1.png alt = "Differential Flatness working" width="100%">
 
 Thus, the thrust and quaternion components are obtained algebraically from the flat output and its derivatives.
 ## 10. Feedback-Linearization Position Controller
