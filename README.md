@@ -1041,7 +1041,14 @@ The implemented controller was further evaluated in MuJoCo to verify the quadrot
 
 <img src = Images/Pybullet_result.png alt = "Drone Started from initial point" width="100%">
 
-*Figure 15, Pybullet Result. *
+*Figure 15. Pybullet Result. *
+
+
+<img src = Images/Pybullet_result1.png alt = "Drone moving from initial point" width="100%">
+
+*Figure 16 . Pybullet Result. *
+
+
 
 ## Conclusion
 
