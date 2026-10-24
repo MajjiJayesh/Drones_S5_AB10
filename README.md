@@ -1120,3 +1120,6 @@ python -m venv venv
 # On Linux / macOS:
 source venv/bin/activate
 
+# After Creating Virtual Environment
+pip install mujoco numpy scipy matplotlib
+
