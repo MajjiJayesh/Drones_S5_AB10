@@ -944,7 +944,7 @@ Therefore, convergence of the three tracked quaternion components also ensures c
 
 It is recommended to use a virtual environment:
 
-```bash
+bash
 # Clone the repository
 git clone https://github.com/<your-username>/<your-repo-name>.git
 cd <your-repo-name>
