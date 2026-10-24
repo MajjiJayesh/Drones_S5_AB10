@@ -944,7 +944,20 @@ Therefore, convergence of the three tracked quaternion components also ensures c
 
 It is recommended to use a virtual environment:
 
-bash
+## 🛠️ Installation & Setup
+
+### 1. Prerequisites
+* **Python**: 3.9, 3.10, 3.11, or 3.12
+* **Operating System**: Windows, Linux, or macOS
+* **Graphics**: GPU/display supporting OpenGL (for interactive 3D rendering)
+
+---
+
+### 2. Environment Setup (Recommended)
+
+It is recommended to use a virtual environment:
+
+```bash
 # Clone the repository
 git clone https://github.com/<your-username>/<your-repo-name>.git
 cd <your-repo-name>
@@ -959,6 +972,7 @@ python -m venv venv
 .\venv\Scripts\activate.bat
 # On Linux / macOS:
 source venv/bin/activate
+ ```
 
 # After Creating Virtual Environment
 pip install mujoco numpy scipy matplotlib
