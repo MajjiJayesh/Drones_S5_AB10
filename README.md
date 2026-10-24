@@ -1041,24 +1041,24 @@ The implemented controller was further evaluated in MuJoCo to verify the quadrot
 
 <img src = Images/Pybullet_result.png alt = "Drone Started from initial point" width="100%">
 
-*Figure 15. Pybullet Result. *
+*Figure 15. Pybullet Result.*
 
 
 <img src = Images/Pybullet_result1.png alt = "Drone moving from initial point" width="100%">
 
-*Figure 16 . Pybullet Result. *
+*Figure 16 . Pybullet Result.*
 
 <img src =  Images/reference_path_generation_graph.png alt = "Trajectory Generation" width="100%">
 
-*Figure 17. Trajectory Generation. *
+*Figure 17. Trajectory Generation.*
 
 <img src =  Images/position_tracking_graph.png alt ="Position Tracking" width="100%">
 
-*FIgure 18. *
+*FIgure 18. 3D Tracking*
 
 <img src =  Images/3-D_tracdking_graph.png alt = "Tracking graph" width="100%">
 
-*FIgure 19. *
+*FIgure 19. thrust and Torque*
 
 <img src =  Images/thrust_and_control_torque_graph.png alt = "Thrust and Torque Graph" width="100%">
 
@@ -1066,15 +1066,15 @@ The implemented controller was further evaluated in MuJoCo to verify the quadrot
 
 <img src =  Images/angular_velocity_graph.png alt = "Angular Velocity" width="100%">
 
-*FIgure 21. *
+*FIgure 21. Quaternion And Euler angles*
 
 <img src =  Images/quaternion_and_eulerangles_graph.png alt = "Quaternion and Euler" width="100%">
 
-*FIgure 22. *
+*FIgure 22. Obstacle Avoidance graph.*
 
 <img src =  Images/obstacle_avoidance_graph.png alt = "Obstacle Avoidance" width="100%">
 
-*FIgure 23. *
+*FIgure 23. Kalman Filter.*
 
 <img src = Images/kalman_filter.png alt = " Kalman Filter" width="100%">
 
