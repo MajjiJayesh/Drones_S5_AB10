@@ -1,19 +1,5 @@
 #!/usr/bin/env python3
-"""
-Quaternion multicopter + sensors + Kalman filtering + DYNAMIC 3-D obstacle avoidance in PyBullet
-(ALL IN ONE FILE).
 
-    pip install pybullet numpy scipy matplotlib
-    python quad_pybullet.py                  # PyBullet window; NEW random world every run
-    python quad_pybullet.py --seed 5         # repeat the same world
-    python quad_pybullet.py --no-gui         # headless, fast, plots saved to results/
-    python quad_pybullet.py --compare        # also run once WITHOUT avoidance (same world)
-    python quad_pybullet.py --print-every 0.25   # terminal table interval (0 = off)
-    python quad_pybullet.py --learn 12 1 2 3     # offline parameter tuning
-
-Every run: random obstacle layout (type order, position, size, speed, direction) + noisy reference.
-The terminal prints the drone's coordinates next to the ORIGINAL reference path coordinates.
-"""
 import os
 import sys
 import time
