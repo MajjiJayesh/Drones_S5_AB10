@@ -972,10 +972,9 @@ python -m venv venv
 .\venv\Scripts\activate.bat
 # On Linux / macOS:
 source venv/bin/activate
- ```
-
 # After Creating Virtual Environment
 pip install mujoco numpy scipy matplotlib
+```
 
 # 12. MATLAB/Simulink Simulation Results
 
