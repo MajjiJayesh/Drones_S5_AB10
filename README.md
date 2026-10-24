@@ -963,9 +963,6 @@ source venv/bin/activate
 pip install mujoco numpy scipy matplotlib
 ```
 
-### 2. Environment Setup
-
-It is recommended to use a virtual environment:
 
 ## 🛠️ Installation & Setup for PyBullet
 
