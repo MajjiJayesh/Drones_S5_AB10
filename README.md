@@ -633,6 +633,8 @@ Thus,
 T=mD
 ```
 
+<img src =  Images/thrust_and_control_torque_graph.png alt = "Thrust and Torque Graph" width="100%">
+
 ### 9.2 Derivation of $q_0$
 
 Adding Eqs. (A.1c) and (A.1d) gives
@@ -1185,7 +1187,7 @@ PS C:\Users\ASUS\OneDrive\Documents\sem5\dronesproject> python .\quad_pybullet.p
 
 *Figure 19. 3D Tracking Graph.*
 
-<img src =  Images/thrust_and_control_torque_graph.png alt = "Thrust and Torque Graph" width="100%">
+
 
 *Figure 20. Thrust and Torque.*
 
