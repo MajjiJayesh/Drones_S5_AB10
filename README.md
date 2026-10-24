@@ -407,10 +407,10 @@ These equations provide the connection between quaternion motion and rotational 
 The translational motion of the multicopter is described by Newton's second law:
 
 $$
-m\ddot{\xi}=mg+Re_zT
+m\ddot{\boldsymbol{\xi}}=-mg\mathbf e_z+TR(q)\mathbf e_z
 $$
 
-where $m$ is the multicopter mass, $g$ is the gravitational acceleration, $R$ is the rotation matrix, $e_z$ is the unit vector along the vertical axis, and $T$ is the total thrust.
+where $m$ is the multicopter mass, $g$ is the gravitational acceleration, $R(q)$ transforms the body thrust direction into the world frame, $e_z$ is the unit vector along the vertical axis, and $T$ is the total thrust.
 
 The position vector is
 
@@ -451,7 +451,7 @@ $$
 The translational dynamics are:
 
 $$
-m\ddot{\xi}=mg+Re_zT
+m\ddot{\boldsymbol{\xi}}=-mg\mathbf e_z+TR(q)\mathbf e_z
 $$
 
 ## 8. Nonlinear Rotational Dynamics
