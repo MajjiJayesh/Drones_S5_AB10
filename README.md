@@ -519,9 +519,9 @@ These equations describe the nonlinear rotational behavior of the multicopter. T
 
 The translational dynamics of the multicopter are given by
 
-```math
-m\ddot{\boldsymbol{\xi}}=m\mathbf{g}+Re_zT
-```
+$$
+m\ddot{\boldsymbol{\xi}}=-mg\mathbf e_z+TR(q)\mathbf e_z
+$$
 
 The flat output is selected as
 
