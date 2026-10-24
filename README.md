@@ -1064,7 +1064,7 @@ The implemented controller was further evaluated in MuJoCo to verify the quadrot
 
 *FIgure 20. *
 
-<img src =  Images/reference_path_generation_graph.png alt = "Trajectory Generation" width="100%">
+<img src =  Images/angular_velocity_graph.png alt = "Angular Velocity" width="100%">
 
 *FIgure 21. *
 
