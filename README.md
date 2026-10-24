@@ -347,7 +347,7 @@ R=
 \end{bmatrix}.
 $$
 
-<img src = Images/bspline picture.jpeg alt = "Basis spline visualization" width="100%">
+<img src = Images/Quaternion_Representation.png alt = "Rotation matrix" width="100%">
 
 The rotation matrix determines the direction of the multicopter thrust in the global coordinate frame and therefore directly connects the attitude to the translational motion. 
 
