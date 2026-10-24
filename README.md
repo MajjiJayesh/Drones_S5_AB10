@@ -1076,7 +1076,7 @@ The implemented controller was further evaluated in MuJoCo to verify the quadrot
 
 *FIgure 23. *
 
-<img src =  Images/reference_path_generation_graph.png alt = "Trajectory Generation" width="100%">
+<img src = Images/kalman_filter.png alt = " Kalman Filter" width="100%">
 
 *FIgure 24. *
 
