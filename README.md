@@ -931,7 +931,7 @@ Therefore, convergence of the three tracked quaternion components also ensures c
 
 # Installments and Requirements
 
-## 🛠️ Installation & Setup for Mujoco
+## 🛠️ Installation & Setup for Mujoco 
 
 ### 1. Prerequisites
 * **Python**: 3.9, 3.10, 3.11, or 3.12
@@ -940,7 +940,7 @@ Therefore, convergence of the three tracked quaternion components also ensures c
 
 ---
 
-### 2. Environment Setup (Recommended)
+### 2. Environment Setup
 
 It is recommended to use a virtual environment:
 
@@ -953,7 +953,7 @@ It is recommended to use a virtual environment:
 
 ---
 
-### 2. Environment Setup (Recommended)
+### 2. Environment Setup 
 
 It is recommended to use a virtual environment:
 
@@ -974,6 +974,43 @@ python -m venv venv
 source venv/bin/activate
 # After Creating Virtual Environment
 pip install mujoco numpy scipy matplotlib
+```
+
+### 2. Environment Setup
+
+It is recommended to use a virtual environment:
+
+## 🛠️ Installation & Setup for PyBullet
+
+### 1. Prerequisites
+* **Python**: 3.9, 3.10, 3.11, or 3.12
+* **Operating System**: Windows, Linux, or macOS
+* **Graphics**: GPU/display supporting OpenGL (for interactive 3D rendering)
+
+---
+
+### 2. Environment Setup 
+
+It is recommended to use a virtual environment:
+
+```bash
+# Clone the repository
+git clone https://github.com/<your-username>/<your-repo-name>.git
+cd <your-repo-name>
+
+# Create virtual environment
+python -m venv venv
+
+# Activate virtual environment:
+# On Windows (PowerShell):
+.\venv\Scripts\Activate.ps1
+# On Windows (cmd):
+.\venv\Scripts\activate.bat
+# On Linux / macOS:
+source venv/bin/activate
+# After Creating Virtual Environment
+
+pip install pybullet numpy scipy matplotlib
 ```
 
 # 12. MATLAB/Simulink Simulation Results
