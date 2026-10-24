@@ -526,7 +526,7 @@ m\ddot{\boldsymbol{\xi}}=m\mathbf{g}+Re_zT
 The flat output is selected as
 
 ```math
-\mathbf{z}=
+\mathbf{y}_f=
 \begin{bmatrix}
 x & y & z & q_3
 \end{bmatrix}^{T}
