@@ -1048,6 +1048,37 @@ The implemented controller was further evaluated in MuJoCo to verify the quadrot
 
 *Figure 16 . Pybullet Result. *
 
+<img src =  Images/reference_path_generation_graph.png alt = "Trajectory Generation" width="100%">
+
+*Figure 17. Trajectory Generation. *
+
+<img src =  Images/reference_path_generation_graph.png alt = "Trajectory Generation" width="100%">
+
+*FIgure 18. *
+
+<img src =  Images/reference_path_generation_graph.png alt = "Trajectory Generation" width="100%">
+
+*FIgure 19. *
+
+<img src =  Images/reference_path_generation_graph.png alt = "Trajectory Generation" width="100%">
+
+*FIgure 20. *
+
+<img src =  Images/reference_path_generation_graph.png alt = "Trajectory Generation" width="100%">
+
+*FIgure 21. *
+
+<img src =  Images/reference_path_generation_graph.png alt = "Trajectory Generation" width="100%">
+
+*FIgure 22. *
+
+<img src =  Images/reference_path_generation_graph.png alt = "Trajectory Generation" width="100%">
+
+*FIgure 23. *
+
+<img src =  Images/reference_path_generation_graph.png alt = "Trajectory Generation" width="100%">
+
+*FIgure 24. *
 
 
 ## Conclusion
