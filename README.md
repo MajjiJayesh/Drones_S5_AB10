@@ -131,8 +131,6 @@ where $N_{i,p}(u)$ are the B-spline basis functions and $u$ is the normalized sp
 
 <img src="Images/bspline picture.jpeg" alt="Basis spline visualization" width="100%">
 
-*Figure 1. Working of BSpline.*
-
 ---
 
 ### 3.1 Clamped Knot Vector
