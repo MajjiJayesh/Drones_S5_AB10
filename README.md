@@ -1039,9 +1039,9 @@ The implemented controller was further evaluated in MuJoCo to verify the quadrot
 
 # 15 PyBullet Results 
 
-<img src = Images/Drone_Obstacle.jpeg alt = "Drone Started from initial point" width="100%">
+<img src = Images/Pybullet_result.png alt = "Drone Started from initial point" width="100%">
 
-*Figure 15, Pybullet Result 
+*Figure 15, Pybullet Result. *
 
 ## Conclusion
 
