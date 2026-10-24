@@ -633,7 +633,7 @@ Thus,
 T=mD
 ```
 
-<img src =  Images/thrust_and_control_torque_graph.png alt = "Thrust and Torque Graph" width="100%">
+<img src = Images/Differential_Flatness_1.png alt = "Differential Flatness working" width="100%">
 
 ### 9.2 Derivation of $q_0$
 
