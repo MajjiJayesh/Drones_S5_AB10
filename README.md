@@ -930,7 +930,7 @@ Therefore, convergence of the three tracked quaternion components also ensures c
 
 # Installments and Requirements
 
-## 🛠️ Installation & Setup for Mujoco
+##  Installation & Setup for Mujoco
 
 ### 1. Prerequisites
 * **Python**: 3.9, 3.10, 3.11, or 3.12
@@ -963,7 +963,7 @@ pip install mujoco numpy scipy matplotlib
 ```
 
 
-## 🛠️ Installation & Setup for PyBullet
+##  Installation & Setup for PyBullet
 
 ### 1. Prerequisites
 * **Python**: 3.9, 3.10, 3.11, or 3.12
