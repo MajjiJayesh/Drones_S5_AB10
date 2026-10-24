@@ -1146,7 +1146,9 @@ The implemented controller was further evaluated in MuJoCo to verify the quadrot
 <img src = Images/Drone_Obstacle.jpeg alt = "Drone Started from initial point" width="100%">
 
 *Figure 14. Quadrotor Following the Trajectory
-
+```bash
+PS C:\Users\ASUS\OneDrive\Documents\sem5\dronesproject> python .\quad_pybullet.py
+```
 # 15 PyBullet Results 
 
 <img src = Images/Pybullet_result.png alt = "Drone Started from initial point" width="100%">
