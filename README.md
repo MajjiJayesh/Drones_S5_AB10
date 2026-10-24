@@ -926,6 +926,8 @@ $$
 
 Therefore, convergence of the three tracked quaternion components also ensures convergence of the remaining quaternion component.
 
+## Simulation
+
 # Installments and Requirements
 
 ## 🛠️ Installation & Setup for Mujoco
