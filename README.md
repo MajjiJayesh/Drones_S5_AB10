@@ -926,9 +926,6 @@ $$
 
 Therefore, convergence of the three tracked quaternion components also ensures convergence of the remaining quaternion component.
 
-
-## Results
-
 # Installments and Requirements
 
 ## 🛠️ Installation & Setup for Mujoco
@@ -996,6 +993,8 @@ source venv/bin/activate
 
 pip install pybullet numpy scipy matplotlib
 ```
+
+## Results
 
 # 12. MATLAB/Simulink Simulation Results
 
