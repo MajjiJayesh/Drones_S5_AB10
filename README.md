@@ -417,6 +417,10 @@ $$
 m\ddot{\boldsymbol{\xi}}=-mg\mathbf e_z+TR(q)\mathbf e_z
 $$
 
+Images/thrust.png
+
+<img src= Images/thrust.png alt= "Thrust cases" width="100%">
+
 where $m$ is the multicopter mass, $g$ is the gravitational acceleration, $R(q)$ transforms the body thrust direction into the world frame, $e_z$ is the unit vector along the vertical axis, and $T$ is the total thrust.
 
 The position vector is
