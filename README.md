@@ -931,20 +931,7 @@ Therefore, convergence of the three tracked quaternion components also ensures c
 
 # Installments and Requirements
 
-## 🛠️ Installation & Setup for Mujoco 
-
-### 1. Prerequisites
-* **Python**: 3.9, 3.10, 3.11, or 3.12
-* **Operating System**: Windows, Linux, or macOS
-* **Graphics**: GPU/display supporting OpenGL (for interactive 3D rendering)
-
----
-
-### 2. Environment Setup
-
-It is recommended to use a virtual environment:
-
-## 🛠️ Installation & Setup
+## 🛠️ Installation & Setup for Mujoco
 
 ### 1. Prerequisites
 * **Python**: 3.9, 3.10, 3.11, or 3.12
