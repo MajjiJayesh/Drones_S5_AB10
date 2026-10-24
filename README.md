@@ -1068,7 +1068,7 @@ The implemented controller was further evaluated in MuJoCo to verify the quadrot
 
 *FIgure 21. *
 
-<img src =  Images/reference_path_generation_graph.png alt = "Trajectory Generation" width="100%">
+<img src =  Images/quaternion_and_eulerangles_graph.png alt = "Quaternion and Euler" width="100%">
 
 *FIgure 22. *
 
