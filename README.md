@@ -1089,3 +1089,34 @@ The *position controller* generates the required corrective acceleration from th
 
 The controller was additionally evaluated using *MuJoCo simulation* to verify the behavior of the implemented multicopter dynamic model in a separate simulation environment. The obtained results demonstrate the complete control pipeline from trajectory generation to position and attitude response. Overall, the implementation provides a systematic quaternion-based approach for multicopter trajectory tracking while avoiding the singularities associated with Euler-angle representations.
 
+# Installments and Requirements
+
+## 🛠️ Installation & Setup
+
+### 1. Prerequisites
+* **Python**: 3.9, 3.10, 3.11, or 3.12
+* **Operating System**: Windows, Linux, or macOS
+* **Graphics**: GPU/display supporting OpenGL (for interactive 3D rendering)
+
+---
+
+### 2. Environment Setup (Recommended)
+
+It is recommended to use a virtual environment:
+
+```bash
+# Clone the repository
+git clone https://github.com/<your-username>/<your-repo-name>.git
+cd <your-repo-name>
+
+# Create virtual environment
+python -m venv venv
+
+# Activate virtual environment:
+# On Windows (PowerShell):
+.\venv\Scripts\Activate.ps1
+# On Windows (cmd):
+.\venv\Scripts\activate.bat
+# On Linux / macOS:
+source venv/bin/activate
+
