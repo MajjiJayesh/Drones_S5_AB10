@@ -931,7 +931,7 @@ Therefore, convergence of the three tracked quaternion components also ensures c
 
 # Installments and Requirements
 
-## 🛠️ Installation & Setup
+## 🛠️ Installation & Setup for Mujoco
 
 ### 1. Prerequisites
 * **Python**: 3.9, 3.10, 3.11, or 3.12
@@ -1038,6 +1038,14 @@ The resulting three-dimensional trajectory is compared with the desired referenc
 *Figure 7. Three-dimensional reference and actual quadrotor trajectories obtained from MATLAB/Simulink simulation.*
 
 # 13. MuJoCo Simulation Results
+
+Run this command
+
+```bash
+python mujoco_animation.py
+```
+
+
 
 The implemented controller was further evaluated in MuJoCo to verify the quadrotor response in a physics-based simulation environment.
 
