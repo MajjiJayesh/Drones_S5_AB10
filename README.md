@@ -129,6 +129,8 @@ $$
 
 where $N_{i,p}(u)$ are the B-spline basis functions and $u$ is the normalized spline parameter.
 
+<img src = Images/kalman_filter.png alt = " Kalman Filter" width="100%">
+
 ---
 
 ### 3.1 Clamped Knot Vector
