@@ -1052,7 +1052,7 @@ The implemented controller was further evaluated in MuJoCo to verify the quadrot
 
 *Figure 17. Trajectory Generation. *
 
-<img src =  Images/reference_path_generation_graph.png alt = "Trajectory Generation" width="100%">
+<img src =  Images/position_tracking_graph.png alt ="Position Tracking" width="100%">
 
 *FIgure 18. *
 
